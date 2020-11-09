@@ -1,0 +1,59 @@
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between">
+    <h1>User #<%= @user.id %></h1>
+    <div style="display: flex; align-items: center; justify-content: flex-start;">
+      <%= link_to 'Edit', edit_admin_user_path(@user), class: "btn btn-outline-secondary btn-sm" %>
+      <%= button_to 'Delete', admin_user_path(@user), class: 'btn btn-outline-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this User?' } %>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col" style="width: 20%;"></th>
+          <th scope="col" style="width: 80%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+          <td><span class="font-weight-lighter">Email:</span></td>
+          <td><span class="font-weight-normal"><%= @user.email %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Firstname:</span></td>
+          <td><span class="font-weight-normal"><%= @user.firstname %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Lastname:</span></td>
+          <td><span class="font-weight-normal"><%= @user.lastname %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Created at:</span></td>
+          <td><span class="font-weight-lighter"><%= @user.created_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Updated at:</span></td>
+          <td><span class="font-weight-lighter"><%= @user.updated_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+
+  <%= link_to "All users", admin_users_path(), class: "btn btn-outline-secondary btn-sm" %>
+
+</div>
+

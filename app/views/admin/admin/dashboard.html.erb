@@ -1,0 +1,27 @@
+<div class="container mt-5">
+<!--  <div class="d-flex align-items-center justify-content-between">-->
+    <h1 class="text-center">Welcome to MAKEitUP International Intensive Admin Panel</h1>
+    <%#= link_to 'Create new', new_admin_table_path(), class: "btn btn-outline-primary btn-sm" %>
+<!--  </div>-->
+
+  <table class="table table-hover mt-5">
+    <thead>
+    <tr>
+      <th scope="col" style="text-align: center">Tables</th>
+      <th scope="col" style="text-align: center">Users</th>
+      <th scope="col" style="text-align: center">Certificates</th>
+<!--      <th scope="col"></th>-->
+    </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td style="text-align: center"><%= @all_tables_count %></td>
+        <td style="text-align: center"><%= @all_users_count %></td>
+        <td style="text-align: center"><%= @all_certificates_count %></td>
+<!--        <td><%#= link_to "Show", admin_table_path(table), class: "btn btn-outline-secondary btn-sm" %></td>-->
+      </tr>
+    </tbody>
+  </table>
+
+</div>

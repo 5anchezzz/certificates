@@ -1,0 +1,1 @@
+ALL_CERTS = %w(main komarova)

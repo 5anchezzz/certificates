@@ -1,0 +1,60 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-5">
+
+  <h1>Edit Rus template #<%= @rus_template.id %></h1>
+
+  <h6 class="mb-5">All fields are required</h6>
+
+  <%= form_for @rus_template, url: rus_template_path do |rus| %>
+
+    <div class="form-group">
+      <%= rus.label :xpos, "X-pos:", class: "col control-label" %>
+      <div class="col">
+        <%= rus.number_field :xpos, step: 1, placeholder: '400', class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= rus.label :ypos, "Y-pos:", class: "col control-label" %>
+      <div class="col">
+        <%= rus.number_field :ypos, step: 1, placeholder: '-100', class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= rus.label :font_size, "Font size:", class: "col control-label" %>
+      <div class="col">
+        <%= rus.number_field :font_size, min: 1, step: 1, placeholder: '82', class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= rus.label :font_color, "Font color (RGB code):", class: "col control-label" %>
+      <div class="col">
+        <%= rus.text_field :font_color, placeholder: '255,255,255', class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="d-flex align-items-center justify-content-start mt-2 ml-3">
+
+        <%= image_tag @rus_template.pdf_file.url(:medium) %>
+
+        <div class="form-group">
+          <%= rus.label :pdf_file, "PDF file:", class: "col control-label" %>
+          <div class="col">
+            <%= rus.file_field :pdf_file, class: "form-control" %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="form-group mt-5 ml-3">
+      <%= link_to "back", certificate_path(@rus_template.certificate), class: "btn btn-light" %>
+      <%= rus.submit class: "btn btn-outline-secondary" %>
+    </div>
+
+  <% end %>
+
+</div>

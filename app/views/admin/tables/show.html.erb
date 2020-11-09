@@ -1,0 +1,90 @@
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between">
+    <h1>Table #<%= @table.id %></h1>
+    <div style="display: flex; align-items: center; justify-content: flex-start;">
+      <%= link_to 'Edit', edit_admin_table_path(@table), class: "btn btn-outline-secondary btn-sm" %>
+      <%= button_to 'Delete', admin_table_path(@table), class: 'btn btn-outline-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Table?' } %>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col" style="width: 20%;"></th>
+          <th scope="col" style="width: 80%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+          <td><span class="font-weight-lighter">Name:</span></td>
+          <td><span class="font-weight-normal"><%= @table.name %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Description:</span></td>
+          <td><span class="font-weight-normal"><%= @table.description %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">State:</span></td>
+          <% @table.state == 'new' ? class_name = 'primary' : class_name = @table.state %>
+          <td><span class="badge badge-<%= class_name %>"><%= @table.state %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">File:</span></td>
+          <td><span class="font-weight-normal"><%= link_to "#{@table.doc_file_name}", @table.doc.url(:original, false) %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Created at:</span></td>
+          <td><span class="font-weight-lighter"><%= @table.created_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Updated at:</span></td>
+          <td><span class="font-weight-lighter"><%= @table.updated_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+  <%= button_to "Create users", create_users_admin_table_path(@table),  :method => :patch, class: 'btn btn-outline-primary btn-sm' if @table.state == 'new' %>
+
+  <h4 class="mt-5">Logs</h4>
+  <div class="row">
+    <div class="col">
+        <table class="table table-hover mb-5">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">body</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @table.logs.split(';').each_with_index { |item, index|  %>
+            <tr>
+              <th scope="row"><%= index + 1 %></th>
+              <td><%= item %></td>
+            </tr>
+          <% } %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <hr>
+
+  <%= link_to "All tables", admin_tables_path(), class: "btn btn-outline-secondary btn-sm" %>
+
+</div>
+

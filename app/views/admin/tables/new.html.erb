@@ -1,0 +1,105 @@
+<div class="container mt-5">
+  <div style="display: flex; align-items: center; ">
+    <h1 class="mr-2">Create new Table</h1>
+    <button type="button" class="btn btn-outline-secondary" style="border: none;" data-toggle="modal" data-target="#exampleModal">
+      <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-question-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+      </svg>
+    </button>
+  </div>
+
+  <h6 class="mb-5">All fields are required</h6>
+
+  <div class="col">
+
+    <%= form_for @table, url: admin_tables_path do |form| %>
+      <div class="form-group">
+        <%= form.label :name, "Name:", class: "col control-label" %>
+        <div class="col">
+          <%= form.text_field :name, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :description, "Description:", class: "col control-label" %>
+        <div class="col">
+          <%= form.text_field :description, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :doc, "Document:", class: "col control-label" %>
+        <div class="col">
+
+          <%= form.file_field :doc, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group mt-5 ml-3">
+        <%= link_to "back", admin_tables_path, class: "btn btn-light" %>
+        <%= form.submit class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 70%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Требования к загружаемой таблице</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Для успешного импорта данных:</h5>
+          <table class="table table-borderless table-small">
+            <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1.</th>
+                <td><span>Загружаемый .xlsx файл, должен содержать <span class="font-weight-bold">только</span> 4 столбца с данными.</span></td>
+              </tr>
+              <tr>
+                <th scope="row">2.</th>
+                <td><span>Первая строка должна быть <span class="font-weight-bold">"шапкой таблицы"</span> из следующих названий столбцов: Firstname, Lastname, Email и Language.</span></td>
+              </tr>
+              <tr>
+                <th scope="row">3.</th>
+                <td><span>Столбец Firstname содержит имя пользователя. <span class="font-weight-bold">Обязателен</span> к заполнению, т.е. таблица <span class="font-weight-bold">не может</span> включать себя записи пользователей без имени.</span></td>
+              </tr>
+              <tr>
+                <th scope="row">4.</th>
+                <td><span>Столбец Lastname содержит фамилию пользователя. <span class="font-weight-bold">Необязателен</span> к заполнению, т.е. таблица <span class="font-weight-bold">может</span> включать себя записи пользователей без фамилии (в этом случае ячейка должна быть пуста и не содержать никаких невидимых символов).</span></td>
+              </tr>
+              <tr>
+                <th scope="row">5.</th>
+                <td><span>Столбец Email содержит электронную почту, которую пользователь использовал для регистрации на интенсиве. <span class="font-weight-bold">Обязателен</span> к заполнению. Данный параметр является идентифицирующем для пользователя, т.е. должен быть <span class="font-weight-bold">уникален</span>, по этой причине таблица не может содержать несколько записей пользователей с одинаковой элкетронной почтой.</span></td>
+              </tr>
+              <tr>
+                <th scope="row">6.</th>
+                <td><span>Столбец Language содержит указание языка, на которм требуется создавать сертификаты для пользователя. <span class="font-weight-bold">Обязателен</span> к заполнению. Может содержать <span class="font-weight-bold">одно из двух</span> значений: rus или eng.</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="d-flex justify-content-center">
+            <%= image_tag "import.png", style: 'height:40rem;' %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

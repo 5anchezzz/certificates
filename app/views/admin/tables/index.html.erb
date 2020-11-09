@@ -1,0 +1,38 @@
+<div class="container mt-5">
+  <div class="d-flex align-items-center justify-content-between">
+    <h1>All Tables</h1>
+    <%= link_to 'Create new', new_admin_table_path(), class: "btn btn-outline-primary btn-sm" %>
+  </div>
+
+  <table class="table table-hover mt-3">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">State</th>
+
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% @tables.each_with_index { |table, index|  %>
+      <% table.state == 'new' ? class_name = 'primary' : class_name = table.state %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= table.name %></td>
+        <td><%= table.description %></td>
+        <td><span class="badge badge-<%= class_name %>"><%= table.state %></span></td>
+        <td><%= link_to "Show", admin_table_path(table), class: "btn btn-outline-secondary btn-sm" %></td>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+
+
+
+
+
+
+</div>

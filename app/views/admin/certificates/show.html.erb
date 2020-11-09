@@ -1,0 +1,169 @@
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between">
+    <h1>Certificate #<%= @certificate.id %></h1>
+    <div style="display: flex; align-items: center; justify-content: flex-start;">
+      <%= link_to 'Edit', edit_admin_certificate_path(@certificate), class: "btn btn-outline-secondary btn-sm" %>
+      <%= button_to 'Delete', admin_certificate_path(@certificate), class: 'btn btn-outline-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Certificate?' } %>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col" style="width: 10%;"></th>
+          <th scope="col" style="width: 90%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><span class="font-weight-lighter">Speaker:</span></td>
+          <td><span class="font-weight-normal"><%= @certificate.speaker %></span></td>
+        </tr>
+        <tr>
+          <td><span class="font-weight-lighter">Description:</span></td>
+          <td><span class="font-weight-normal"><%= @certificate.description %></span></td>
+        </tr>
+        <tr>
+          <td><span class="font-weight-lighter">Date:</span></td>
+          <td><span class="font-weight-normal"><%= @certificate.date.strftime('%d.%m.%y') %></span></td>
+        </tr>
+        <tr>
+          <td><span class="font-weight-lighter">Filename:</span></td>
+          <td><span class="font-weight-normal"><%= @certificate.name %></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-3">
+      <div class="d-flex align-items-center justify-content-center" style="height: 36px">
+        <h6 style="margin: 0">🇷🇺Rus template</h6>
+        <% if @certificate.rus_template %>
+          <div>
+            <%= button_to '&#10007;'.html_safe, admin_rus_template_path(@rus_template), class: 'btn btn-outline-danger btn-sm ml-2', style: 'border: none', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Rus template?' } if @rus_template%>
+          </div>
+        <% end %>
+      </div>
+      <div style="height: 80%">
+        <% if @certificate.rus_template %>
+          <div class="d-flex align-items-center justify-content-center mt-2">
+            <%= image_tag @certificate.rus_template.pdf_file.url(:thumb) %>
+          </div>
+          <div class="d-flex justify-content-center ml-4">
+            <table class="table table-borderless table-sm">
+              <thead>
+              <tr>
+                <th scope="col" style="width: 40%;"></th>
+                <th scope="col" style="width: 60%;"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><span class="font-weight-lighter">X-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.xpos %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Y-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.ypos %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Font color:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.font_color %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Font size:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.font_size %></span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <%= link_to 'Edit', edit_admin_rus_template_path(@rus_template), class: "btn btn-outline-secondary btn-sm" %>
+          </div>
+      <% else %>
+          <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+            <%= link_to new_admin_rus_template_path(certificate_id: @certificate.id) do %>
+              <button type="button" class="btn btn-outline-secondary" style="width: 6em; height: 6em; border: none;">
+                <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                </svg>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+
+      <div class="d-flex align-items-center justify-content-center" style="height: 36px">
+        <h6 style="margin: 0;">🇺🇸Eng template</h6>
+        <% if @certificate.eng_template %>
+          <div>
+            <%= button_to '&#10007;'.html_safe, admin_eng_template_path(@eng_template), class: 'btn btn-outline-danger btn-sm ml-2', style: 'border: none', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Eng template?' }%>
+          </div>
+        <% end %>
+      </div>
+
+      <div style="height: 80%">
+        <% if @certificate.eng_template %>
+          <div class="d-flex align-items-center justify-content-center mt-2">
+            <%= image_tag @certificate.eng_template.pdf_file.url(:thumb) %>
+          </div>
+          <div class="d-flex justify-content-center ml-4">
+            <table class="table table-borderless table-sm">
+              <thead>
+              <tr>
+                <th scope="col" style="width: 40%;"></th>
+                <th scope="col" style="width: 60%;"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><span class="font-weight-lighter">X-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.xpos %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Y-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.ypos %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Font color:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.font_color %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Font size:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.font_size %></span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <%= link_to 'Edit', edit_admin_eng_template_path(@eng_template), class: "btn btn-outline-secondary btn-sm" %>
+          </div>
+        <% else %>
+          <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+            <%= link_to new_admin_eng_template_path(certificate_id: @certificate.id) do %>
+              <button type="button" class="btn btn-outline-secondary" style="width: 6em; height: 6em; border: none;">
+                <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                </svg>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+    </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <%= link_to "All certificates", admin_certificates_path(), class: "btn btn-outline-secondary btn-sm" %>
+
+</div>
+

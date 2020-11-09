@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <span class="navbar-brand ml-5">ADMIN</span>
+<!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--    <span class="navbar-toggler-icon"></span>-->
+<!--  </button>-->
+
+
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+
+      <%
+        dashboard_class = 'active' if current_page?(admin_root_path)
+        tables_class = 'active' if current_page?(admin_tables_path)
+        users_class = 'active' if current_page?(admin_users_path)
+        certificates_class = 'active' if current_page?(admin_certificates_path)
+      %>
+
+      <li class="nav-item <%= dashboard_class %>">
+        <%= link_to 'Dashboard', admin_root_path, class: "nav-link"%>
+      </li>
+      <li class="nav-item <%= tables_class %>">
+        <%= link_to 'Tables', admin_tables_path, class: "nav-link"%>
+      </li>
+      <li class="nav-item <%= users_class %>">
+        <%= link_to 'Users', admin_users_path, class: "nav-link"%>
+      </li>
+      <li class="nav-item <%= certificates_class %>">
+        <%= link_to 'Certificates', admin_certificates_path, class: "nav-link"%>
+      </li>
+
+
+
+
+
+    </ul>
+
+    <!--    <span class="navbar-text">-->
+    <!--      Navbar text with an inline element-->
+    <!--    </span>-->
+
+    <%#= link_to 'Sign in', destroy_admin_session_path(), class: 'btn btn-outline-light btn-sm mr-5' %>
+    <%= link_to 'Main', root_path(), class: 'btn btn-outline-light btn-sm mr-2' %>
+    <%= button_to 'Sign out', destroy_admin_session_path(), class: 'btn btn-outline-light btn-sm mr-5', method: :delete if admin_signed_in?%>
+
+
+
+  </div>
+</nav>

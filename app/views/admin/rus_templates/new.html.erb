@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <h1>Create new 🇷🇺Rus template</h1>
+  <h6 class="mb-5">All fields are required</h6>
+
+  <div class="col">
+    <%= form_for @rus_template, url: admin_rus_templates_path do |rus| %>
+
+      <%= rus.hidden_field :certificate_id, :value => params[:certificate_id] %>
+
+      <div class="form-group">
+        <%= rus.label :xpos, "X-pos:", class: "col control-label" %>
+        <div class="col">
+          <%= rus.number_field :xpos, step: 1, placeholder: '400', required: true, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= rus.label :ypos, "Y-pos:", class: "col control-label" %>
+        <div class="col">
+          <%= rus.number_field :ypos, step: 1, placeholder: '-100', required: true, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= rus.label :font_size, "Font size:", class: "col control-label" %>
+        <div class="col">
+          <%= rus.number_field :font_size, min: 1, step: 1, placeholder: '82', required: true, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= rus.label :font_color, "Font color (RGB code):", class: "col control-label" %>
+        <div class="col">
+          <%= rus.text_field :font_color, placeholder: '255,255,255', required: true, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= rus.label :pdf_file, "PDF file:", class: "col control-label" %>
+        <div class="col">
+          <%= rus.file_field :pdf_file, required: true, class: "form-control" %>
+        </div>
+      </div>
+    <div class="form-group mt-5 ml-3">
+      <%= link_to "back", admin_certificate_path(@certificate), class: "btn btn-light" %>
+      <%= rus.submit class: "btn btn-outline-secondary" %>
+    </div>
+    <% end %>
+  </div>
+
+</div>

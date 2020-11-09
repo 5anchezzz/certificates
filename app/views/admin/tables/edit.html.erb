@@ -1,0 +1,34 @@
+<div class="container mt-5">
+
+  <h1>Edit Table #<%= @table.id %></h1>
+
+  <h6>All fields are required</h6>
+  <div class="d-flex flex-column">
+    <span class="font-weight-lighter">Here you can update only the Name or Description of this table.</span>
+    <span class="font-weight-lighter">If you want to change the attached file, then you need to delete this table and create a new one, attaching the correct file.</span>
+  </div>
+
+  <%= form_for @table, url: admin_table_path do |f| %>
+
+    <div class="form-group mt-5">
+      <%= f.label :name, "Name:", class: "col control-label" %>
+      <div class="col">
+        <%= f.text_field :name, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "Description:", class: "col control-label" %>
+      <div class="col">
+        <%= f.text_field :description, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group mt-5 ml-3">
+      <%= link_to "back", admin_table_path(@table), class: "btn btn-light" %>
+      <%= f.submit class: "btn btn-outline-secondary" %>
+    </div>
+
+  <% end %>
+
+</div>
