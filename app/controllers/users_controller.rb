@@ -73,66 +73,10 @@ class UsersController < ApplicationController
     end
   end
 
-
-
-
-  #def download_zip
-  #  user = User.find_by_email(params[:user_email])
-  #  zipfile_name = Tempfile.new(["#{Rails.root}/tmp/factures", '.zip'])
-  #  Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-  #    ALL_CERTS.each do |bill|
-  #      temp_pdf = Tempfile.new(["basic_questions_#{Time.now.to_i}", '.pdf'])
-  #      temp_pdf.binmode
-  #      temp_prawn_pdf = user.combine_pdf_cert(bill)
-  #      temp_pdf.write temp_prawn_pdf
-  #      temp_pdf.rewind
-  #      zipfile.add("web_#{bill}.pdf", "#{temp_pdf.path}")
-  #      temp_pdf.close
-  #    end
-  #  end
-  #
-  #  path = File.join(Rails.root, "public", "pdfs")
-  #  send_file File.join(path, "factures.zip")
-  #  ensure
-  #  zipfile_name.close
-  #
-  #end
-
-
-
-
-
-
-
-
-
-
-
   private
   def user_params
     params.require(:user).permit(:firstname, :lastname, :email, :language)
   end
-
-
-
-  #def generate_pdf
-  #  Prawn::Document.new do
-  #    text "Hello Stackoverflow"
-  #  end.render
-  #end
-
-
-
-  #def combine_pdf
-  #  fonts = CombinePDF.new(Rails.root.join('public','font-montserrat.pdf')).fonts(true)
-  #  CombinePDF.register_font_from_pdf_object :montserrat, fonts[0]
-  #
-  #  template_pdf = CombinePDF.load(Rails.root.join('public','main.pdf'))
-  #
-  #  template_pdf.pages[0].textbox("РУССКИЙ", { font: :montserrat })
-  #  template_pdf.save Rails.root.join('public','main-new.pdf')
-  #end
-
 
 end
 
