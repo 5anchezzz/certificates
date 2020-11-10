@@ -1,5 +1,13 @@
 <div class="container mt-5">
-  <h1>Create new Certificate</h1>
+  <div style="display: flex; align-items: center; ">
+    <h1 class="mr-2">Create new Certificate</h1>
+    <button type="button" class="btn btn-outline-secondary" style="border: none;" data-toggle="modal" data-target="#exampleModal">
+      <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-question-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+      </svg>
+    </button>
+  </div>
   <h6 class="mb-5">All fields are required</h6>
 
   <%= form_for @certificate, url: admin_certificates_path, html: { multipart: true } do |form| %>
@@ -218,6 +226,81 @@
 <!--    </div>-->
 
   <%# end %>
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 70%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Описание работы с Сертификатами</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Объект Сертификат можно условно разделить на две части:</h5>
+
+          <table class="table table-borderless table-small">
+            <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1.</th>
+              <td>
+                <span>
+                  <span class="font-weight-bold">Информационная</span>, состоящее из таких полей как Спикер, Дата, Название файла и Описание.
+                  Эта часть отображается пользователю, чтобы он мог легко ориентироваться по списку доступных ему сертификатов.
+                  Названия полей исчерпывающе описывают себя, но остановимся на Дате и Название файла.
+                  <ul>
+                    <li>Дата - рекомендуется проставлять дату проведения единственного или завершающего семинара, конкретного спикера.
+                  Для вывода сертификаты сортируются именно по дате.
+                    </li>
+                    <li>
+                      Название файла - это имя которое будет присвоену файлу данного сертификата при скачивании, логично это поле заполнять именем спикера или локаничным описанием сертификата, например, ilon_musk или main.
+                    </li>
+                  </ul>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2.</th>
+              <td>
+                <span>
+                  <span class="font-weight-bold">Шаблоны</span> - непосредственно сами pdf-файлы (предназначенные для заполнения), дополненные рядом параметров, которые описывают размеры (font size), цвет (font color) о положение текста (x-pos и y-pos).
+                  Остановимся на каждом параметре по порядку.
+                  <ul>
+                    <li>Font size - высота шрифта в пикселях. Например, для файла высотой около 1500px, хорошо читается шритф высотой 90-100px.</li>
+                    <li>Font color - цвет шрифта в цифровом формате RGB кодировки. Например, белый - 255,255,255. <span class="font-weight-bold">Важно!</span> Формат должен строго соответствовать заданносу шаблону - три числа, разделенных между собой запятыми. Никакие дополнительные сивмолы не допускаются.</li>
+                    <li>X-pos и Y-pos - x и y координаты, соответственно, по которым будет размещаться центр добавляемого в файл текста.
+                      Если текст необходимо разместить строго по середине файла, X-pos и Y-pos должы быть равны 0.
+                      Для наглядности на схеме представлено размещение одной буквы "С" в центре первой четверти pdf-файла разрешением 3507х2481px.</li>
+                  </ul>
+
+                  <div class="d-flex justify-content-center">
+                    <%= image_tag "schema.jpg", style: 'height:40rem;' %>
+                  </div>
+
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><span><span class="font-weight-bold">Важно!</span> Объект Сертификат можно создать без части с шаблономи,
+                но в таком случае данный сертификат не будет доступен для пользователей.
+                Если же в Сертификате есть шаблон хотя бы для одного из двух языков, то этот сертификат будет доступен только
+                пользавателем с данным языком. Так, если для всех пользователей используется только русский язык, добавление шаблонов на английском не требуется.</span></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 </div>
