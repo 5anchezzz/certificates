@@ -8,26 +8,21 @@ class WelcomeController < ApplicationController
       if user
         redirect_to result_path(email: params[:email])
       else
-        flash.now[:danger] = "Ooops! Are you sure you entered the correct email address?"
+        flash.now[:danger] = 'Ooops! Are you sure you entered the correct email address?'
         render action: :index
       end
     end
   end
 
-
-  #TODO new variant
-
   def result
     @user = User.find_by_email(params[:email])
-
   end
 
   def download_pdf
     user = User.find_by_email(params[:user_email])
     certificate = Certificate.find(params[:certificate_id])
-    send_data(user.combine_pdf_cert(certificate), :filename => "#{certificate.name}_cert.pdf", :type => "application/pdf")
+    send_data(user.combine_pdf_cert(certificate), filename: "#{certificate.name}_cert.pdf", type: 'application/pdf')
   end
-
 
   def download_zip
     user = User.find_by_email(params[:user_email])
@@ -52,9 +47,5 @@ class WelcomeController < ApplicationController
       temp_file.unlink
     end
   end
-
-  #TODO new variant
-
-
 
 end
