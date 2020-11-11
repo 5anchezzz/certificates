@@ -15,6 +15,7 @@ class Certificate < ApplicationRecord
 
   scope :rus, -> { joins(:rus_template) }
   scope :eng, -> { joins(:eng_template) }
+  scope :no_templates, -> { includes(:rus_template,:eng_template).where(rus_templates: { id: nil }, eng_templates: { id: nil }) }
 
   #validates :language, presence: true, inclusion: %w(rus eng)
   #validates :xpos, presence: true, numericality: { only_integer: true }
