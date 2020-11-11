@@ -37,6 +37,22 @@
         </tr>
 
         <tr>
+          <td><span class="font-weight-lighter">Language:</span></td>
+          <td><span class="font-weight-normal"><%= @user.language %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Created:</span></td>
+          <td>
+            <% if @user.table %>
+              <span class="font-weight-normal">from table <a href="<%= admin_table_url(@user.table) %>"><%= @user.table.name %></a></span></td>
+            <% else %>
+              <span class="font-weight-normal">manually</span>
+            <% end %>
+          </td>
+        </tr>
+
+        <tr>
           <td><span class="font-weight-lighter">Created at:</span></td>
           <td><span class="font-weight-lighter"><%= @user.created_at.strftime('%d.%m.%y %H:%M') %></span></td>
         </tr>
