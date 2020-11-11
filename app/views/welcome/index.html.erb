@@ -1,4 +1,4 @@
-<body style="background-image:url('assets/welcome_back_2.jpg'); background-repeat: no-repeat; background-size: cover;">
+<body style="background-image:url('assets/welcome_back_2.jpg'); background-size:cover; background-repeat:no-repeat; background-attachment:fixed; height:100%;">
 
 <div class="container" style="margin-top: 100px">
 
@@ -9,14 +9,13 @@
 
       <h1 class="display-3 text-center" style="font-family: Helvetica">MAKEitUP</h1>
       <h2 class="display-3 text-center" style="font-family: Helvetica">International Intensive</h2>
-      <h3 class="text-center" style="font-family: Helvetica; font-weight: lighter; margin-top: 40px; margin-bottom: 60px;">Have
-        you completed the course?</h3>
+      <h3 class="text-center" style="font-family: Helvetica; font-weight: lighter; margin-top: 40px; margin-bottom: 60px;">Have you completed the course?</h3>
 
       <div class="d-flex align-items-center justify-content-center mt-5">
         <%= form_tag root_path(), method: 'get', :class => 'input-group input-group-lg', :style => "max-width: 70%" do %>
-          <%= text_field_tag :email, params[:email], class: 'form-control', style: 'border: none;', placeholder: "Enter your email", autofocus: true, required: true %>
+          <%= text_field_tag :email, params[:email], class: 'form-control', type: 'search', style: 'border: none;', placeholder: "Enter your email", autofocus: true, required: true %>
           <div class="input-group-append">
-            <%= link_to '&times;'.html_safe, request.path, class: "btn btn-light" %>
+            <%#= link_to '&times;'.html_safe, request.path, class: "btn btn-light" %>
             <%= submit_tag "Get certificates!", class: 'btn btn-light' %>
           </div>
         <% end %>
