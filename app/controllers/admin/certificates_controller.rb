@@ -2,7 +2,7 @@ class Admin::CertificatesController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @certificates = Certificate.all
+    @certificates = Certificate.all.order(date: :desc)
   end
 
   def show
