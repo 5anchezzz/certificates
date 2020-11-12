@@ -18,7 +18,7 @@ class Admin::UsersController < ApplicationController
       flash[:success] = "New User successfully created!"
       redirect_to admin_users_path
     else
-      flash[:danger] = "Ooops! Something went wrong! #{@user.errors.full_messages.to_sentence}"
+      flash.now[:danger] = "Ooops! Something went wrong! #{@user.errors.full_messages.to_sentence}"
       render :new
     end
   end
