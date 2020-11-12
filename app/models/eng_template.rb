@@ -9,6 +9,7 @@ class EngTemplate < ApplicationRecord
 
   has_attached_file :pdf_file, styles: { :thumb => ["200x200>", :png], :medium => ["500x500>", :png] }
   validates_attachment :pdf_file, presence: true,
+                       size: { in: 0..500.kilobytes },
                        content_type: { content_type: ['application/pdf'] },
                        message: 'Only PDF files are allowed'
 
