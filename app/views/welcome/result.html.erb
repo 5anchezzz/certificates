@@ -25,8 +25,8 @@
           <thead>
           <tr>
             <th scope="col" style="width: 5%;">#</th>
-            <th scope="col" style="width: 45%;">Description</th>
             <th scope="col" style="width: 25%;">Speaker</th>
+            <th scope="col" style="width: 45%;">Description</th>
             <th scope="col" style="width: 15%;">Date</th>
             <th scope="col" style="width: 10%; text-align: center">Download</th>
           </tr>
@@ -35,8 +35,8 @@
           <% Certificate.scope_by_language(@user.language).each_with_index { |cert, index| %>
             <tr>
               <th scope="row"><%= index + 1 %></th>
-              <td><%= cert.description %></td>
               <td><%= cert.speaker %></td>
+              <td><%= cert.description %></td>
               <td><%= cert.date.strftime('%d.%m.%y') %></td>
               <td style="text-align: center">
                 <a href="<%= download_pdf_path(user_email: @user.email, :certificate_id => cert.id) %>" target="_blank" style="font-size: 24px;">
