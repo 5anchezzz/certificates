@@ -8,13 +8,18 @@ class User < ApplicationRecord
 
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create
 
+  def name_to_paste
+    firstname.upcase + (" #{lastname.upcase}" if lastname).to_s
+  end
+
 
   def combine_pdf_cert(certificate)
     language == 'rus' ? using_template = certificate.rus_template : using_template = certificate.eng_template
     fonts = CombinePDF.new(Rails.root.join('public','font-montserrat.pdf')).fonts(true)
     CombinePDF.register_font_from_pdf_object :montserrat, fonts[0]
     template_pdf = CombinePDF.load(using_template.pdf_file.path)
-    template_pdf.pages[0].textbox("#{firstname} #{lastname}", { font: :montserrat,
+    #template_pdf.pages[0].textbox("#{firstname} #{lastname}", { font: :montserrat,
+    template_pdf.pages[0].textbox(name_to_paste, { font: :montserrat,
                                                                 font_color: using_template.font_color.split(',').map(&:to_i),
                                                                 font_size: using_template.font_size,
                                                                 x: using_template.xpos,
