@@ -27,28 +27,21 @@ class WelcomeController < ApplicationController
   def download_zip
     user = User.find_by_email(params[:user_email])
     filename = 'all_certs_archive.zip'
-    temp_file = Tempfile.new(filename)
-    arr_for_temps = []
+    zip_file = Tempfile.new(filename)
     begin
-      Zip::OutputStream.open(temp_file) { |zos| }
-      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
-        Certificate.scope_by_language(user.language).each do |type|
-          cert = Tempfile.new("#{type.name}-#{user.email}.pdf")
-          ObjectSpace.undefine_finalizer(cert)
-          arr_for_temps << cert
-          cert.binmode
-          cert.write(user.combine_pdf_cert(type))
-          cert.rewind
+      Certificate.scope_by_language(user.language).each do |type|
+        cert = Tempfile.new("#{type.name}-#{user.email}.pdf")
+        cert.binmode
+        cert.write(user.combine_pdf_cert(type))
+        Zip::File.open(zip_file.path, Zip::File::CREATE) do |zip|
           zip.add("#{type.name}-#{user.email}.pdf", cert.path)
-          cert.close
         end
+        cert.close
+        cert.unlink
       end
-      zip_data = File.read(temp_file.path)
+      zip_data = File.read(zip_file.path)
+      zip_file.unlink
       send_data(zip_data, type: 'application/zip', disposition: 'attachment', filename: filename)
-    ensure
-      arr_for_temps.map(&:unlink)
-      temp_file.close
-      temp_file.unlink
     end
   end
 
