@@ -64,12 +64,8 @@
               </thead>
               <tbody>
               <tr>
-                <td><span class="font-weight-lighter">X-pos:</span></td>
-                <td><span class="font-weight-normal"><%= @certificate.rus_template.xpos %></span></td>
-              </tr>
-              <tr>
-                <td><span class="font-weight-lighter">Y-pos:</span></td>
-                <td><span class="font-weight-normal"><%= @certificate.rus_template.ypos %></span></td>
+                <td><span class="font-weight-lighter">Resolution:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.pdf_width %>х<%= @certificate.rus_template.pdf_height %></span></td>
               </tr>
               <tr>
                 <td><span class="font-weight-lighter">Font size:</span></td>
@@ -78,6 +74,14 @@
               <tr>
                 <td><span class="font-weight-lighter">Font color:</span></td>
                 <td><span class="font-weight-normal"><%= @certificate.rus_template.font_color %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">X-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.xpos %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Y-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.rus_template.ypos %></span></td>
               </tr>
               </tbody>
             </table>
@@ -125,12 +129,8 @@
               </thead>
               <tbody>
               <tr>
-                <td><span class="font-weight-lighter">X-pos:</span></td>
-                <td><span class="font-weight-normal"><%= @certificate.eng_template.xpos %></span></td>
-              </tr>
-              <tr>
-                <td><span class="font-weight-lighter">Y-pos:</span></td>
-                <td><span class="font-weight-normal"><%= @certificate.eng_template.ypos %></span></td>
+                <td><span class="font-weight-lighter">Resolution:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.pdf_width %>х<%= @certificate.eng_template.pdf_height %></span></td>
               </tr>
               <tr>
                 <td><span class="font-weight-lighter">Font size:</span></td>
@@ -139,6 +139,14 @@
               <tr>
                 <td><span class="font-weight-lighter">Font color:</span></td>
                 <td><span class="font-weight-normal"><%= @certificate.eng_template.font_color %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">X-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.xpos %></span></td>
+              </tr>
+              <tr>
+                <td><span class="font-weight-lighter">Y-pos:</span></td>
+                <td><span class="font-weight-normal"><%= @certificate.eng_template.ypos %></span></td>
               </tr>
               </tbody>
             </table>
