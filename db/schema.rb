@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_08_192043) do
+ActiveRecord::Schema.define(version: 2020_11_14_123035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 2020_11_08_192043) do
     t.string "pdf_file_content_type"
     t.integer "pdf_file_file_size"
     t.datetime "pdf_file_updated_at"
+    t.integer "pdf_height"
+    t.integer "pdf_width"
     t.index ["certificate_id"], name: "index_eng_templates_on_certificate_id"
   end
 
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(version: 2020_11_08_192043) do
     t.string "pdf_file_content_type"
     t.integer "pdf_file_file_size"
     t.datetime "pdf_file_updated_at"
+    t.integer "pdf_height"
+    t.integer "pdf_width"
     t.index ["certificate_id"], name: "index_rus_templates_on_certificate_id"
   end
 
@@ -94,6 +98,7 @@ ActiveRecord::Schema.define(version: 2020_11_08_192043) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "table_id"
+    t.float "name_width"
     t.index ["table_id"], name: "index_users_on_table_id"
   end
 
