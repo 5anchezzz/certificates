@@ -34,6 +34,8 @@ gem 'devise'
 gem 'ransack'
 gem 'kaminari'
 gem "roo", "~> 2.8.0"
+gem 'prawn'
+gem 'rmagick'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
