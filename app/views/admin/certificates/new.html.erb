@@ -61,9 +61,9 @@
           </div>
         </div>
         <div class="form-group">
-          <%= rus.label :font_color, "Font color (RGB code):", class: "col control-label" %>
+          <%= rus.label :font_color, "Font color (CMYK code):", class: "col control-label" %>
           <div class="col">
-            <%= rus.text_field :font_color, placeholder: '255,255,255', class: "form-control" %>
+            <%= rus.text_field :font_color, placeholder: '0,0,0,0', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
@@ -96,9 +96,9 @@
           </div>
         </div>
         <div class="form-group">
-          <%= eng.label :font_color, "Font color (RGB code):", class: "col control-label" %>
+          <%= eng.label :font_color, "Font color (CMYK code):", class: "col control-label" %>
           <div class="col">
-            <%= eng.text_field :font_color, placeholder: '255,255,255', class: "form-control" %>
+            <%= eng.text_field :font_color, placeholder: '0,0,0,0', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
@@ -270,18 +270,18 @@
               <th scope="row">2.</th>
               <td>
                 <span>
-                  <span class="font-weight-bold">Шаблоны</span> - непосредственно сами pdf-файлы (предназначенные для заполнения), дополненные рядом параметров, которые описывают размеры (font size), цвет (font color) о положение текста (x-pos и y-pos).
+                  <span class="font-weight-bold">Шаблоны</span> - непосредственно сами pdf-файлы (предназначенные для заполнения), дополненные рядом параметров, которые описывают размеры (font size), цвет (font color) и положение текста (x-pos и y-pos).
                   Остановимся на каждом параметре по порядку.
                   <ul>
-                    <li>Font size - высота шрифта в пикселях. Например, для файла высотой около 1500px, хорошо читается шритф высотой 90-100px.</li>
-                    <li>Font color - цвет шрифта в цифровом формате RGB кодировки. Например, белый - 255,255,255. <span class="font-weight-bold">Важно!</span> Формат должен строго соответствовать заданносу шаблону - три числа, разделенных между собой запятыми. Никакие дополнительные сивмолы не допускаются.</li>
+                    <li>Font size - высота шрифта в пикселях. Например, для файла высотой около 1500px, хорошо читается шритф высотой 80-90px.</li>
+                    <li>Font color - цвет шрифта в цифровом формате CMYK кодировки. Например, белый - 0,0,0,0. <span class="font-weight-bold">Важно!</span> Формат должен строго соответствовать заданносу шаблону -  четыре числа, разделенных между собой запятыми. Никакие дополнительные сивмолы не допускаются.</li>
                     <li>X-pos и Y-pos - x и y координаты, соответственно, по которым будет размещаться центр добавляемого в файл текста.
-                      Если текст необходимо разместить строго по середине файла, X-pos и Y-pos должы быть равны 0.
+                      X-pos - размещение горизонтального центра текста, Y-pos - нижняя точка текста.
                       Для наглядности на схеме представлено размещение одной буквы "С" в центре первой четверти pdf-файла разрешением 3507х2481px.</li>
                   </ul>
 
                   <div class="d-flex justify-content-center">
-                    <%= image_tag "schema.jpg", style: 'height:40rem;' %>
+                    <%= image_tag "schema_new.png", style: 'height:40rem;' %>
                   </div>
 
                 </span>
@@ -292,7 +292,7 @@
               <td><span><span class="font-weight-bold">Важно!</span> Объект Сертификат можно создать без части с шаблономи,
                 но в таком случае данный сертификат не будет доступен для пользователей.
                 Если же в Сертификате есть шаблон хотя бы для одного из двух языков, то этот сертификат будет доступен только
-                пользавателем с данным языком. Так, если для всех пользователей используется только русский язык, добавление шаблонов на английском не требуется.</span></td>
+                пользавателям с данным языком. Так, очевидно, что если для всех пользователей используется только русский язык, добавление шаблонов на английском не требуется.</span></td>
             </tr>
 
             </tbody>
