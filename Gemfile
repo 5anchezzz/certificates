@@ -37,6 +37,13 @@ gem "roo", "~> 2.8.0"
 gem 'prawn'
 gem 'rmagick'
 
+gem "capistrano", "3.10"
+gem 'capistrano-rvm'
+gem 'capistrano-bundler'
+gem 'capistrano-rails'
+gem 'unicorn'
+gem 'capistrano3-unicorn'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
