@@ -4,9 +4,9 @@ class Table < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
 
-  has_attached_file :doc,
-                    :url => "/attach/:basename.:extension",
-                    :path => ":rails_root/public/attach/:basename.:extension"
+  has_attached_file :doc
+                    #:url => "/attach/:basename.:extension",
+                    #:path => ":rails_root/public/attach/:basename.:extension"
 
   validates_attachment :doc, presence: true,
                        content_type: { content_type: [ "application/vnd.ms-excel",
