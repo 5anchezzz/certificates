@@ -81,9 +81,6 @@ test:
 production:
   <<: *default
   database: download_pdf_production
-#  username: download_pdf
   username: deployer
-#  password: <%#= ENV['DOWNLOAD_PDF_DATABASE_PASSWORD'] %>
-#  password:  <%#= Rails.application.credentials.download_pdf_database_password! %>
-  password:  some_test_pass
+  password:  <%= Rails.application.credentials.download_pdf_database_password! %>
   host: localhost
