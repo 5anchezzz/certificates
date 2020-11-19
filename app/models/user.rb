@@ -46,14 +46,27 @@ class User < ApplicationRecord
 
 
   def generate_cert_with_prawn(certificate)
+    #hhh = 800
+    #left = 914
+    #length = 948
+
     language == 'rus' ? using_template = certificate.rus_template : using_template = certificate.eng_template
     color = using_template.font_color.split(',').map(&:to_i)
-    start_pos = using_template.xpos - ((name_width * using_template.font_size * 0.95 / 15) / 2)
+    #start_pos = using_template.xpos - ((name_width * using_template.font_size * 1.71) / 2)
+    start_pos = using_template.xpos - ((name_width * using_template.font_size * 1.76 / 15) / 2)
 
     prawn_text_pdf = Prawn::Document.new :page_size => [using_template.pdf_height, using_template.pdf_width], :margin => 0 do |pdf|
       pdf.fill_color color[0], color[1], color[2], color[3]
       pdf.font Rails.root.join('public','Montserrat-Medium.ttf')
-      pdf.draw_text name_to_paste, :at => [start_pos, using_template.ypos], :size => using_template.font_size * 0.7
+      pdf.draw_text name_to_paste, :at => [start_pos, using_template.ypos], :size => using_template.font_size * 0.7 * 2
+
+      #pdf.text_box name_to_paste,
+      #             size: using_template.font_size * 0.7 * 2,
+      #             at: [left, hhh + using_template.font_size * 0.8 * 2],
+      #             align: :center,
+      #             valign: :top,
+      #             width: length
+
     end
 
     pdf_data = prawn_text_pdf.render
@@ -69,7 +82,7 @@ class User < ApplicationRecord
 
   def set_name_width
     label = Magick::Draw.new
-    label.font Rails.root.join('public','Montserrat-Medium.ttf')
+    label.font = Rails.root.join('public','Montserrat-Medium.ttf').to_s
     width = label.get_type_metrics(name_to_paste).width
     self.name_width = width if self.name_width != width
   end
