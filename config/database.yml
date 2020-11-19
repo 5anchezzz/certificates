@@ -83,4 +83,4 @@ production:
   database: download_pdf_production
   username: download_pdf
   password: <%= ENV['DOWNLOAD_PDF_DATABASE_PASSWORD'] %>
-  host: ''
+  host: localhost
