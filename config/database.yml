@@ -85,4 +85,4 @@ production:
   username: deployer
 #  password: <%#= ENV['DOWNLOAD_PDF_DATABASE_PASSWORD'] %>
   password:  <%= Rails.application.credentials.download_pdf_database_password %>
-  host: localhost
+  host: ''
