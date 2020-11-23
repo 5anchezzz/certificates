@@ -51,14 +51,15 @@ class User < ApplicationRecord
     #length = 948
 
     language == 'rus' ? using_template = certificate.rus_template : using_template = certificate.eng_template
+    name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
     color = using_template.font_color.split(',').map(&:to_i)
     #start_pos = using_template.xpos - ((name_width * using_template.font_size * 1.71) / 2)
-    start_pos = using_template.xpos - ((name_width * using_template.font_size * 1.76 / 15) / 2)
+    start_pos = using_template.xpos - ((name_width * using_template.font_size * width_koeff * 1.76 / 15) / 2)
 
     prawn_text_pdf = Prawn::Document.new :page_size => [using_template.pdf_height, using_template.pdf_width], :margin => 0 do |pdf|
       pdf.fill_color color[0], color[1], color[2], color[3]
       pdf.font Rails.root.join('public','Montserrat-Medium.ttf')
-      pdf.draw_text name_to_paste, :at => [start_pos, using_template.ypos], :size => using_template.font_size * 0.7 * 2
+      pdf.draw_text name_to_paste, :at => [start_pos, using_template.ypos], :size => using_template.font_size * width_koeff * 0.7 * 2
 
       #pdf.text_box name_to_paste,
       #             size: using_template.font_size * 0.7 * 2,
