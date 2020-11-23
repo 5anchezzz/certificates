@@ -16,6 +16,27 @@ class WelcomeController < ApplicationController
 
   def result
     @user = User.find_by_email(params[:email])
+
+    if @user.language == 'rus'
+      @hi =           'Привет'
+      @chose =        'Здесь ты можешь выбрать тот сертификат, который тебе нужен или скачать их все сразу'
+      @speaker =      'Спикер'
+      @description =  'Описание'
+      @date =         'Дата'
+      @download =     'Скачать'
+      @no_certs =     'Нет доступных сертификатов. Пожалуста, обратитесь в службу поддержки.'
+      @main =         'На главную'
+    else
+      @hi =           'Hi'
+      @chose =        'Here you can choose the certificate you need or download them all at once'
+      @speaker =      'Speaker'
+      @description =  'Description'
+      @date =         'Date'
+      @download =     'Download'
+      @no_certs =     'No certificates available. Please contact support.'
+      @main =         'Back to Main'
+    end
+
   end
 
   def download_pdf

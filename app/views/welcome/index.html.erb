@@ -1,15 +1,21 @@
-<body style="background-image:url(<%= asset_path 'welcome_back_2.jpg'%>); background-size:cover; background-repeat:no-repeat; background-attachment:fixed; height:100%;">
+<body style="background-image:url(<%= asset_path 'main_back.jpg'%>);
+    background-size:cover; background-repeat:no-repeat; background-attachment:fixed;
+    height: 100vh;
+">
 
-<div class="container" style="margin-top: 100px">
+<div class="container" style="margin:0; height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+">
 
-  <div class="row">
-    <div class="col">
-    </div>
-    <div class="col-10">
+<div>
 
-      <h1 class="display-3 text-center" style="font-family: Helvetica">MAKEitUP</h1>
-      <h2 class="display-3 text-center" style="font-family: Helvetica">International Intensive</h2>
-      <h3 class="text-center" style="font-family: Helvetica; font-weight: lighter; margin-top: 40px; margin-bottom: 60px;">Have you completed the course?</h3>
+      <h1 class="display-3 text-center" style="font-family: Montserrat">MAKEitUP</h1>
+      <h2 class="display-3 text-center" style="font-family: Montserrat">International Intensive</h2>
+      <h3 class="text-center" style="font-family: Montserrat; font-weight: lighter; margin-top: 40px; margin-bottom: 60px;">Have you completed the course?</h3>
 
       <div class="d-flex align-items-center justify-content-center mt-5">
         <%= form_tag root_path(), method: 'get', :class => 'input-group input-group-lg', :style => "max-width: 70%" do %>
@@ -21,8 +27,8 @@
         <% end %>
       </div>
 
-    </div>
-  </div>
+</div>
+
 </div>
 
 </body>

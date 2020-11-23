@@ -65,7 +65,7 @@ class Admin::CertificatesController < ApplicationController
 
   def certificate_params
     #params.require(:certificate).permit(:name, :speaker, :description, :date, :language, :xpos, :ypos, :template)
-    params.require(:certificate).permit(:name, :speaker, :description, :date,
+    params.require(:certificate).permit(:name, :speaker, :description, :date, :speaker_eng, :description_eng,
                                         rus_template_attributes: [:xpos, :ypos, :font_size, :font_color, :pdf_file],
                                         eng_template_attributes: [:xpos, :ypos, :font_size, :font_color, :pdf_file])
   end

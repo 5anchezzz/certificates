@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <div style="display: flex; align-items: center; ">
+  <div class="mb-5" style="display: flex; align-items: center; ">
     <h1 class="mr-2">Create new Certificate</h1>
     <button type="button" class="btn btn-outline-secondary" style="border: none;" data-toggle="modal" data-target="#exampleModal">
       <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-question-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -8,34 +8,46 @@
       </svg>
     </button>
   </div>
-  <h6 class="mb-5">All fields are required</h6>
+<!--  <h6 class="mb-5">All fields are required</h6>-->
 
   <%= form_for @certificate, url: admin_certificates_path, html: { multipart: true } do |form| %>
   <div class="row">
     <div class="col">
       <h5 class="ml-3">Info</h5>
       <div class="form-group">
-        <%= form.label :speaker, "Speaker:", class: "col control-label" %>
+        <%= form.label :speaker, "Speaker *", class: "col control-label" %>
         <div class="col">
-          <%= form.text_field :speaker, placeholder: 'Ilon Musk', required: true, class: "form-control" %>
+          <%= form.text_field :speaker, placeholder: 'Илон Маск', required: true, class: "form-control" %>
         </div>
       </div>
       <div class="form-group">
-        <%= form.label :date, "Date:", class: "col control-label" %>
+        <%= form.label :speaker_eng, "Speaker (eng)", class: "col control-label" %>
+        <div class="col">
+          <%= form.text_field :speaker, placeholder: 'Ilon Musk', class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= form.label :date, "Date *", class: "col control-label" %>
         <div class="col">
           <%= form.date_field :date, required: true, class: "form-control" %>
         </div>
       </div>
       <div class="form-group">
-        <%= form.label :name, "Filename:", class: "col control-label" %>
+        <%= form.label :name, "Filename *", class: "col control-label" %>
         <div class="col">
           <%= form.text_field :name, placeholder: 'musk', required: true, class: "form-control" %>
         </div>
       </div>
       <div class="form-group">
-        <%= form.label :description, "Description:", class: "col control-label" %>
+        <%= form.label :description, "Description *", class: "col control-label" %>
         <div class="col">
-          <%= form.text_area :description, placeholder: 'Discussion of the problems of terraforming Mars', required: true, class: "form-control" %>
+          <%= form.text_area :description, placeholder: 'Обсуждение проблемы терраформирования Марса', required: true, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= form.label :description_eng, "Description (eng)", class: "col control-label" %>
+        <div class="col">
+          <%= form.text_area :description_eng, placeholder: 'Discussion of the problems of terraforming Mars', class: "form-control" %>
         </div>
       </div>
     </div>
@@ -43,31 +55,31 @@
       <%= form.fields_for :rus_template do |rus| %>
         <h5 class="ml-3">🇷🇺Rus template</h5>
         <div class="form-group">
-          <%= rus.label :xpos, "X-pos:", class: "col control-label" %>
+          <%= rus.label :xpos, "X-pos *", class: "col control-label" %>
           <div class="col">
             <%= rus.number_field :xpos, step: 1, placeholder: '400', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= rus.label :ypos, "Y-pos:", class: "col control-label" %>
+          <%= rus.label :ypos, "Y-pos *", class: "col control-label" %>
           <div class="col">
-            <%= rus.number_field :ypos, step: 1, placeholder: '-100', class: "form-control" %>
+            <%= rus.number_field :ypos, step: 1, placeholder: '100', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= rus.label :font_size, "Font size:", class: "col control-label" %>
+          <%= rus.label :font_size, "Font size *", class: "col control-label" %>
           <div class="col">
             <%= rus.number_field :font_size, min: 1, step: 1, placeholder: '82', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= rus.label :font_color, "Font color (CMYK code):", class: "col control-label" %>
+          <%= rus.label :font_color, "Font color (CMYK code) *", class: "col control-label" %>
           <div class="col">
             <%= rus.text_field :font_color, placeholder: '0,0,0,0', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= rus.label :pdf_file, "PDF file:", class: "col control-label" %>
+          <%= rus.label :pdf_file, "PDF file *", class: "col control-label" %>
           <div class="col">
             <%= rus.file_field :pdf_file, class: "form-control" %>
           </div>
@@ -78,31 +90,31 @@
       <%= form.fields_for :eng_template do |eng| %>
         <h5 class="ml-3">🇺🇸Eng Template</h5>
         <div class="form-group">
-          <%= eng.label :xpos, "X-pos:", class: "col control-label" %>
+          <%= eng.label :xpos, "X-pos *", class: "col control-label" %>
           <div class="col">
             <%= eng.number_field :xpos, step: 1, placeholder: '600', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= eng.label :ypos, "Y-pos:", class: "col control-label" %>
+          <%= eng.label :ypos, "Y-pos *", class: "col control-label" %>
           <div class="col">
-            <%= eng.number_field :ypos, step: 1, placeholder: '-200', class: "form-control" %>
+            <%= eng.number_field :ypos, step: 1, placeholder: '200', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= eng.label :font_size, "Font size:", class: "col control-label" %>
+          <%= eng.label :font_size, "Font size *", class: "col control-label" %>
           <div class="col">
             <%= eng.number_field :font_size, min: 1, step: 1, placeholder: '82', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= eng.label :font_color, "Font color (CMYK code):", class: "col control-label" %>
+          <%= eng.label :font_color, "Font color (CMYK code) *", class: "col control-label" %>
           <div class="col">
             <%= eng.text_field :font_color, placeholder: '0,0,0,0', class: "form-control" %>
           </div>
         </div>
         <div class="form-group">
-          <%= eng.label :pdf_file, "PDF file:", class: "col control-label" %>
+          <%= eng.label :pdf_file, "PDF file *", class: "col control-label" %>
           <div class="col">
             <%= eng.file_field :pdf_file, class: "form-control" %>
           </div>

@@ -23,9 +23,16 @@
 
     <% @certificates.each_with_index { |cert, index|  %>
       <tr>
+        <% speaker_class = 'text-danger' if (cert.speaker_eng == nil || cert.speaker_eng == '') && cert.eng_template.present? %>
+        <% description_class = 'text-danger' if (cert.description_eng == nil || cert.description_eng == '') && cert.eng_template.present? %>
+
         <th style="text-align: center" scope="row"><%= index + 1 %></th>
-        <td><%= cert.speaker %></td>
-        <td><%= cert.description %></td>
+        <td class=<%= speaker_class %>>
+          <%= cert.speaker %>
+        </td>
+        <td class=<%= description_class %>>
+          <%= cert.description %>
+        </td>
         <td style="text-align: center"><%= cert.date.strftime('%d.%m.%y') %></td>
 
         <td style="text-align: center">
