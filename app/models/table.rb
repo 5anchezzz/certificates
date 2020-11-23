@@ -23,7 +23,7 @@ class Table < ApplicationRecord
     success_count = 0
     xlsx.each_row_streaming(offset: 1, pad_cells: true) do |row|
       begin
-        set_lastname = row[1].to_s.downcase.capitalize unless row[1].empty?
+        set_lastname = row[1].to_s.downcase.capitalize if row[1].present?
         users.create!(firstname: row[0].to_s.downcase.capitalize,
                       lastname: set_lastname,
                       email: row[2].to_s.downcase,

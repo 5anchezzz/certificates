@@ -4,9 +4,9 @@ class WelcomeController < ApplicationController
   def index
     if params[:email]
       #redirect_to user_path(params[:email])
-      user = User.find_by_email(params[:email])
+      user = User.find_by_email(params[:email].to_s.downcase)
       if user
-        redirect_to result_path(email: params[:email])
+        redirect_to result_path(email: params[:email].to_s.downcase)
       else
         flash.now[:danger] = 'Ooops! Are you sure you entered the correct email address?'
         render action: :index
