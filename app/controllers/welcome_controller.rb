@@ -26,6 +26,7 @@ class WelcomeController < ApplicationController
       @download =     'Скачать'
       @no_certs =     'Нет доступных сертификатов. Пожалуста, обратитесь в службу поддержки.'
       @main =         'На главную'
+      @download_all = 'Скачать все'
     else
       @hi =           'Hi'
       @chose =        'Here you can choose the certificate you need or download them all at once'
@@ -35,6 +36,7 @@ class WelcomeController < ApplicationController
       @download =     'Download'
       @no_certs =     'No certificates available. Please contact support.'
       @main =         'Back to Main'
+      @download_all = 'Download all'
     end
 
   end
