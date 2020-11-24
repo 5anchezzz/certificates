@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class User < ApplicationRecord
   belongs_to :table, optional: true
 
@@ -78,6 +79,89 @@ class User < ApplicationRecord
     cert_pdf.to_pdf
 
   end
+
+  def generate_all_certs
+    name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
+
+    main_cert = Certificate.where(name: 'main').first
+    speaker_cert = Certificate.where.not(name: 'main').first
+
+    main_template = main_cert.rus_template
+    speaker_template = speaker_cert.rus_template
+
+    main_start_pos = main_template.xpos - ((name_width * main_template.font_size * width_koeff * 1.76 / 15) / 2)
+    main_color = main_template.font_color.split(',').map(&:to_i)
+    main_text_pdf = Prawn::Document.new :page_size => [main_template.pdf_height,
+                                                       main_template.pdf_width],
+                                        :margin => 0 do |pdf|
+      pdf.fill_color main_color[0], main_color[1], main_color[2], main_color[3]
+      pdf.font Rails.root.join('public','Montserrat-Medium.ttf')
+      pdf.draw_text name_to_paste, :at => [main_start_pos, main_template.ypos], :size => main_template.font_size * width_koeff * 0.7 * 2
+    end
+    main_text_pdf = main_text_pdf.render
+    combine_main = CombinePDF.parse(main_text_pdf).pages[0]
+    main_text_pdf = nil
+
+    speaker_start_pos = speaker_template.xpos - ((name_width * speaker_template.font_size * width_koeff * 1.76 / 15) / 2)
+    speaker_color = speaker_template.font_color.split(',').map(&:to_i)
+    speaker_text_pdf = Prawn::Document.new :page_size => [speaker_template.pdf_height,
+                                                          speaker_template.pdf_width],
+                                        :margin => 0 do |pdf|
+      pdf.fill_color speaker_color[0], speaker_color[1], speaker_color[2], speaker_color[3]
+      pdf.font Rails.root.join('public','Montserrat-Medium.ttf')
+      pdf.draw_text name_to_paste, :at => [speaker_start_pos, speaker_template.ypos], :size => speaker_template.font_size * width_koeff * 0.7 * 2
+    end
+    speaker_text_pdf = speaker_text_pdf.render
+    combine_speaker = CombinePDF.parse(speaker_text_pdf).pages[0]
+    speaker_text_pdf = nil
+
+    case language
+    when 'rus'
+      all_templates = RusTemplate.all.includes(:certificate)
+    when 'eng'
+      all_templates = EngTemplate.all.includes(:certificate)
+    end
+
+    filename = "#{email}_all_certs.zip"
+    zip_file = Tempfile.new(filename)
+
+    all_templates.each do |type|
+      cert = Tempfile.new("#{type.certificate.name}-#{email}.pdf")
+      cert.binmode
+      type.certificate.name == 'main' ? combine_text_pdf = combine_main : combine_text_pdf = combine_speaker
+      cert_pdf = CombinePDF.load type.pdf_file.path
+      cert_pdf.pages[0] << combine_text_pdf
+      one_cert = cert_pdf.to_pdf
+      cert.write(one_cert)
+      Zip::File.open(zip_file.path, Zip::File::CREATE) do |zip|
+        zip.add("#{type.certificate.name}-#{email}.pdf", cert.path)
+      end
+      cert.close
+      cert.unlink
+    end
+
+    result = File.read(zip_file.path)
+    zip_file.close
+    zip_file.unlink
+    result
+  end
+
+  def generate_cert_by_template(template)
+    name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
+    color = template.font_color.split(',').map(&:to_i)
+    start_pos = template.xpos - ((name_width * template.font_size * width_koeff * 1.76 / 15) / 2)
+    prawn_text_pdf = Prawn::Document.new :page_size => [template.pdf_height, template.pdf_width], :margin => 0 do |pdf|
+      pdf.fill_color color[0], color[1], color[2], color[3]
+      pdf.font Rails.root.join('public','Montserrat-Medium.ttf')
+      pdf.draw_text name_to_paste, :at => [start_pos, template.ypos], :size => template.font_size * width_koeff * 0.7 * 2
+    end
+    pdf_data = prawn_text_pdf.render
+    combine_text_pdf = CombinePDF.parse(pdf_data).pages[0]
+    cert_pdf = CombinePDF.load template.pdf_file.path
+    cert_pdf.pages[0] << combine_text_pdf
+    cert_pdf.to_pdf
+  end
+
 
   private
 

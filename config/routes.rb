@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'result', to: 'welcome#result'
   get 'download_pdf', to: "welcome#download_pdf"
   get 'download_zip', to: "welcome#download_zip"
+  get 'zip_zip', to: "welcome#zip_zip"
 
   #resources :users, only: [:index, :show, :edit], param: :email, :constraints => { :email => /.*/ } do
   #resources :users, param: :email, :constraints => { :email => /.*/ } do

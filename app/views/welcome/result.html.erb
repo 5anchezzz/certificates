@@ -1,5 +1,5 @@
 <body style="background-image:url(<%= asset_path 'main_back.jpg'%>); background-size:cover; background-repeat:no-repeat; background-attachment:fixed; height:100%;">
-<div class="container mt-5" style="background: rgb(255 255 255 / 50%);border-radius: 16px;">
+<div class="container mt-5" style="background: rgb(255 255 255 / 70%);border-radius: 16px;">
 
 
   <div class="d-flex justify-content-between">
@@ -23,6 +23,9 @@
         <div class="d-flex align-items-center justify-content-center">
           <a class="btn btn-warning" href="<%= download_zip_path(user_email: @user.email) %>" target="_blank">
             <%= @download_all %>
+          </a>
+          <a class="btn btn-warning" href="<%= zip_zip_path(user_email: @user.email) %>" target="_blank">
+            ZIP ZIP
           </a>
         </div>
 
