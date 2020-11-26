@@ -135,8 +135,8 @@ class User < ApplicationRecord
         cert.write(one_cert)
         zip.put_next_entry("#{type.certificate.name}-#{email}.pdf")
         zip.write IO.read(cert.path)
-        #cert.close
-        #cert.unlink
+        cert.close
+        cert.unlink
       end
     end
     # result = File.read(zip_file.path)
