@@ -100,7 +100,7 @@ class User < ApplicationRecord
     end
     main_text_pdf = main_text_pdf.render
     combine_main = CombinePDF.parse(main_text_pdf).pages[0]
-    main_text_pdf = nil
+    #main_text_pdf = nil
 
     speaker_start_pos = speaker_template.xpos - ((name_width * speaker_template.font_size * width_koeff * 1.76 / 15) / 2)
     speaker_color = speaker_template.font_color.split(',').map(&:to_i)
@@ -113,7 +113,7 @@ class User < ApplicationRecord
     end
     speaker_text_pdf = speaker_text_pdf.render
     combine_speaker = CombinePDF.parse(speaker_text_pdf).pages[0]
-    speaker_text_pdf = nil
+    #speaker_text_pdf = nil
 
     case language
     when 'rus'
@@ -122,28 +122,27 @@ class User < ApplicationRecord
       all_templates = EngTemplate.all.includes(:certificate)
     end
 
-    filename = "#{email}_all_certs.zip"
-    zip_file = Tempfile.new(filename)
-
-    all_templates.each do |type|
-      cert = Tempfile.new("#{type.certificate.name}-#{email}.pdf")
-      cert.binmode
-      type.certificate.name == 'main' ? combine_text_pdf = combine_main : combine_text_pdf = combine_speaker
-      cert_pdf = CombinePDF.load type.pdf_file.path
-      cert_pdf.pages[0] << combine_text_pdf
-      one_cert = cert_pdf.to_pdf
-      cert.write(one_cert)
-      Zip::File.open(zip_file.path, Zip::File::CREATE) do |zip|
-        zip.add("#{type.certificate.name}-#{email}.pdf", cert.path)
+    #filename = "#{email}_all_certs.zip"
+    #zip_file = Tempfile.new(filename)
+    Zip::OutputStream.write_buffer do |zip|
+      all_templates.each do |type|
+        cert = Tempfile.new("#{type.certificate.name}-#{email}.pdf")
+        cert.binmode
+        type.certificate.name == 'main' ? combine_text_pdf = combine_main : combine_text_pdf = combine_speaker
+        cert_pdf = CombinePDF.load type.pdf_file.path
+        cert_pdf.pages[0] << combine_text_pdf
+        one_cert = cert_pdf.to_pdf
+        cert.write(one_cert)
+        zip.put_next_entry("#{type.certificate.name}-#{email}.pdf")
+        zip.write IO.read(cert.path)
+        #cert.close
+        #cert.unlink
       end
-      cert.close
-      cert.unlink
     end
-
-    result = File.read(zip_file.path)
-    zip_file.close
-    zip_file.unlink
-    result
+    # result = File.read(zip_file.path)
+    # zip_file.close
+    # zip_file.unlink
+    # result
   end
 
   def generate_cert_by_template(template)

@@ -71,7 +71,9 @@ class WelcomeController < ApplicationController
   def zip_zip
     user = User.find_by_email(params[:user_email])
     filename = 'all_certs_archive.zip'
-    send_data(user.generate_all_certs, type: 'application/zip', disposition: 'attachment', filename: filename)
+    certs_files = user.generate_all_certs
+    certs_files.rewind
+    send_data(certs_files.read, type: 'application/zip', disposition: 'attachment', filename: filename)
   end
 
 end
