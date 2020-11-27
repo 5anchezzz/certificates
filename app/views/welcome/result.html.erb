@@ -21,11 +21,11 @@
         <h6 class="text-muted mb-5"><%= @chose %></h6>
         </div>
         <div class="d-flex align-items-center justify-content-center">
-          <a class="btn btn-warning" href="<%= download_zip_path(user_email: @user.email) %>" target="_blank">
-            <%= @download_all %>
-          </a>
+<!--          <a class="btn btn-warning" href="<%#= download_zip_path(user_email: @user.email) %>" target="_blank">-->
+            <%#= @download_all %>
+<!--          </a>-->
           <a class="btn btn-warning" href="<%= zip_zip_path(user_email: @user.email) %>" target="_blank">
-            ZIP ZIP
+            <%= @download_all %>
           </a>
         </div>
 
