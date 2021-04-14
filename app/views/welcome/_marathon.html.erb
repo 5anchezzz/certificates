@@ -1,0 +1,19 @@
+<% @mars.each do |m| %>
+
+  <div class="card text-center" style="font-family: Montserrat!important; min-height: 48rem; width: 24rem; margin: 16px; background: rgb(255 255 255 / 30%); border: none; position: relative;">
+
+    <div>
+      <img src="<%= m.logo.url %>" class="card-img-top" style="padding: 16px; " alt="...">
+      <div class="card-body mt-3">
+        <h3 class="card-title"><%= m.name %></h3>
+        <p class="card-text mt-4"><%= m.description %></p>
+      </div>
+    </div>
+
+    <div class="card-body" style="position: absolute;bottom: 20px;left: 40px;right: 40px;">
+      <a href="<%= certificates_path(email: @email, marathon_id: m.id) %>" class="btn btn-dark btn-lg mt-3 mb-4" style="border-radius: 16px"> Открыть / open</a>
+    </div>
+
+  </div>
+
+<% end %>

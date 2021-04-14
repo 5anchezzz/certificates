@@ -8,18 +8,29 @@
     <thead>
     <tr>
       <th scope="col" style="width: 5%; text-align: center">#</th>
-      <th scope="col" style="width: 25%;">Name</th>
-      <th scope="col" style="width: 40%;">Description</th>
-      <th scope="col" style="width: 20%; text-align: center">State</th>
+      <th scope="col" style="width: 20%;">Marathon</th>
+      <th scope="col" style="width: 20%;">Name</th>
+      <th scope="col" style="width: 35%;">Description</th>
+      <th scope="col" style="width: 10%; text-align: center">State</th>
       <th scope="col" style="width: 10%; text-align: center"></th>
     </tr>
     </thead>
     <tbody>
 
     <% @tables.each_with_index { |table, index|  %>
-      <% table.state == 'new' ? class_name = 'primary' : class_name = table.state %>
+      <% case table.state %>
+    <% when 'new' %>
+        <% class_name = 'primary' %>
+      <% when 'error' %>
+        <% class_name = 'danger' %>
+      <% when 'processing' %>
+        <% class_name = 'warning' %>
+      <% when 'done' %>
+        <% class_name = 'success' %>
+      <% end %>
       <tr>
         <th scope="row"><%= index + 1 %></th>
+        <td><%= table.marathon.name %></td>
         <td><%= table.name %></td>
         <td><%= table.description %></td>
         <td style="text-align: center"><span class="badge badge-<%= class_name %>"><%= table.state %></span></td>

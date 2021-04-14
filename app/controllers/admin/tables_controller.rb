@@ -6,11 +6,13 @@ class Admin::TablesController < ApplicationController
   end
 
   def new
+    @marathons = Marathon.all
     @table = Table.new
   end
 
   def create
-    table_head = ["firstname", "lastname", "email", "language"]
+    @marathons = Marathon.all
+    table_head = ["firstname", "lastname", "email"]
 
     temp_doc = Roo::Spreadsheet.open(table_params[:doc].to_path)
 
@@ -45,20 +47,33 @@ class Admin::TablesController < ApplicationController
     @table = Table.find(params[:id])
   end
 
+  # def create_users
+  #   @table = Table.find(params[:id])
+  #   result_hash = @table.create_users
+  #   @table = Table.find(params[:id])
+  #
+  #   if result_hash[:errors_row]
+  #     @table.update!(state: 'warning')
+  #     flash[:danger] = "#{result_hash[:errors_row].size} users were not created. Check logs"
+  #     redirect_to admin_table_path
+  #   else
+  #     @table.update!(state: 'success')
+  #     flash[:success] = 'All users have been successfully created'
+  #     redirect_to admin_table_path
+  #   end
+  # end
+
   def create_users
     @table = Table.find(params[:id])
-    result_hash = @table.create_users
+    UsersCreater.perform_async(@table.id)
     @table = Table.find(params[:id])
-
-    if result_hash[:errors_row]
-      @table.update!(state: 'warning')
-      flash[:danger] = "#{result_hash[:errors_row].size} users were not created. Check logs"
-      redirect_to admin_table_path
-    else
-      @table.update!(state: 'success')
-      flash[:success] = 'All users have been successfully created'
-      redirect_to admin_table_path
-    end
+    flash.now[:success] = "Yeeeaahh! The users creating was started!"
+    @table.update(state: 'processing')
+    redirect_to admin_table_path(@table)
+  rescue StandardError => error
+    flash.now[:danger] = "Ooops! Something went wrong! #{error.to_sentence}"
+    @table.update(state: 'error')
+    render action: :show
   end
 
   def destroy
@@ -87,6 +102,18 @@ class Admin::TablesController < ApplicationController
     end
   end
 
+  def renew
+    @table = Table.find(params[:id])
+    if @table.update(state: 'new',
+                     logs: "#{@table.logs}Success: #{DateTime.now.strftime('%d.%m.%y %H:%M')} - Table state was changed on NEW back;")
+      flash[:success] = "Table successfully changed state to NEW!"
+      redirect_to admin_table_path(@table)
+    else
+      flash.now[:danger] = "Ooops! Something went wrong! #{@table.errors.full_messages.to_sentence}"
+      render action: :show
+    end
+  end
+
 
 
   private
@@ -95,7 +122,7 @@ class Admin::TablesController < ApplicationController
 # Be sure to update your create() and update() controller methods.
 
   def table_params
-    params.require(:table).permit(:name, :description, :doc)
+    params.require(:table).permit(:name, :description, :doc, :marathon_id)
   end
 
   def update_table_params

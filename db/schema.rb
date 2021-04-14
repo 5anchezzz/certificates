@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_20_120527) do
+ActiveRecord::Schema.define(version: 2021_03_29_201558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,41 @@ ActiveRecord::Schema.define(version: 2020_11_20_120527) do
     t.index ["certificate_id"], name: "index_eng_templates_on_certificate_id"
   end
 
+  create_table "lectures", force: :cascade do |t|
+    t.bigint "marathon_id", null: false
+    t.string "name"
+    t.string "speaker"
+    t.text "description"
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "certificate_file_name"
+    t.string "certificate_content_type"
+    t.integer "certificate_file_size"
+    t.datetime "certificate_updated_at"
+    t.integer "pdf_width"
+    t.integer "pdf_height"
+    t.string "file_name"
+    t.index ["marathon_id"], name: "index_lectures_on_marathon_id"
+  end
+
+  create_table "marathons", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "pdf_width"
+    t.integer "pdf_height"
+    t.integer "font_size"
+    t.string "font_color"
+    t.integer "x_pos"
+    t.integer "y_pos"
+    t.text "description"
+    t.string "logo_file_name"
+    t.string "logo_content_type"
+    t.integer "logo_file_size"
+    t.datetime "logo_updated_at"
+  end
+
   create_table "rus_templates", force: :cascade do |t|
     t.bigint "certificate_id", null: false
     t.integer "xpos"
@@ -90,6 +125,8 @@ ActiveRecord::Schema.define(version: 2020_11_20_120527) do
     t.string "doc_content_type"
     t.integer "doc_file_size"
     t.datetime "doc_updated_at"
+    t.bigint "marathon_id", null: false
+    t.index ["marathon_id"], name: "index_tables_on_marathon_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -101,10 +138,20 @@ ActiveRecord::Schema.define(version: 2020_11_20_120527) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "table_id"
     t.float "name_width"
+    t.bigint "marathon_id", null: false
+    t.string "text_file_name"
+    t.string "text_content_type"
+    t.integer "text_file_size"
+    t.datetime "text_updated_at"
+    t.string "state"
+    t.index ["marathon_id"], name: "index_users_on_marathon_id"
     t.index ["table_id"], name: "index_users_on_table_id"
   end
 
   add_foreign_key "eng_templates", "certificates"
+  add_foreign_key "lectures", "marathons"
   add_foreign_key "rus_templates", "certificates"
+  add_foreign_key "tables", "marathons"
+  add_foreign_key "users", "marathons"
   add_foreign_key "users", "tables"
 end

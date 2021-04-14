@@ -1,15 +1,27 @@
 # frozen_string_literal: true
 class User < ApplicationRecord
+  extend Enumerize
+
   belongs_to :table, optional: true
+  belongs_to :marathon
 
   validates :firstname, presence: true
   #validates :lastname, presence: true
-  validates :language, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
+  # validates :language, presence: true
+  validates :email, uniqueness: { case_sensitive: false, scope: :marathon }
+
 
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create
 
-  before_save :set_name_width
+  after_save :name_template_full, if: -> { saved_change_to_firstname? || saved_change_to_lastname? }
+
+  has_attached_file :text
+  do_not_validate_attachment_file_type :text
+
+  scope :already_done, -> { where(state: 'done') }
+  scope :of_one_marathon, ->(marathon_id) { where(marathon_id: marathon_id) }
+
+  enumerize :state, in: ['done', 'wait'], default: 'wait'
 
   def name_to_paste
     firstname.upcase + (" #{lastname.upcase}" if lastname).to_s
@@ -161,14 +173,89 @@ class User < ApplicationRecord
     cert_pdf.to_pdf
   end
 
+  ###################
+
+  def generate_one_cert(lecture)
+    cert_pdf = CombinePDF.load lecture.certificate.path
+    cert_pdf.pages[0] << CombinePDF.load(text.path).pages[0]
+    cert_pdf.to_pdf
+  end
+
+  def generate_all_certs_new
+    Zip::OutputStream.write_buffer do |zip|
+      marathon.lectures.each do |type|
+        cert = Tempfile.new("#{type.file_name}-#{email}.pdf")
+        cert.binmode
+        combine_text_pdf = CombinePDF.load(text.path).pages[0]
+        cert_pdf = CombinePDF.load type.certificate.path
+        cert_pdf.pages[0] << combine_text_pdf
+        one_cert = cert_pdf.to_pdf
+        cert.write(one_cert)
+        zip.put_next_entry("#{type.file_name}-#{email}.pdf")
+        zip.write IO.read(cert.path)
+        cert.close
+        cert.unlink
+      end
+    end
+  end
+
+  def generate_name_pdf
+    name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
+    color = marathon.font_color.split(',').map(&:to_i)
+    start_pos = marathon.x_pos - ((name_width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+    prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
+      pdf.fill_color color[0], color[1], color[2], color[3]
+      pdf.font Rails.root.join('public', 'Montserrat-Medium.ttf')
+      pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+    end
+    update!(
+      text: StringIO.new(prawn_text_pdf.render),
+      text_file_name: "Clear_name_text_#{DateTime.now.strftime("%Y_%m_%d_%H_%M_%S")}.pdf",
+      state: 'wait'
+    )
+  end
 
   private
 
-  def set_name_width
+  # def set_name_width
+  #   label = Magick::Draw.new
+  #   label.font = Rails.root.join('public','Montserrat-Medium.ttf').to_s
+  #   width = label.get_type_metrics(name_to_paste).width
+  #   self.name_width = width
+  #   save
+  # end
+
+  def name_template_full
     label = Magick::Draw.new
-    label.font = Rails.root.join('public','Montserrat-Medium.ttf').to_s
+    label.font = Rails.root.join('public', 'Montserrat-Medium.ttf').to_s
     width = label.get_type_metrics(name_to_paste).width
-    self.name_width = width if self.name_width != width
+    self.name_width = width
+    #########################
+    width > 180 ? width_koeff = 180.0/width : width_koeff = 1.0
+    color = marathon.font_color.split(',').map(&:to_i)
+    start_pos = marathon.x_pos - ((width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+    prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
+      pdf.fill_color color[0], color[1], color[2], color[3]
+      pdf.font Rails.root.join('public', 'Montserrat-Medium.ttf')
+      pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+    end
+    self.text = StringIO.new(prawn_text_pdf.render)
+    self.text_file_name = "Clear_name_text_#{DateTime.now.strftime("%Y_%m_%d_%H_%M_%S")}.pdf"
+    self.state = 'wait'
+    save
   end
+
+  # def generate_name_pdf
+  #   name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
+  #   color = marathon.font_color.split(',').map(&:to_i)
+  #   start_pos = marathon.x_pos - ((name_width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+  #   prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
+  #     pdf.fill_color color[0], color[1], color[2], color[3]
+  #     pdf.font Rails.root.join('public','Montserrat-Medium.ttf')
+  #     pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+  #   end
+  #   update!(text: StringIO.new(prawn_text_pdf.render),
+  #           text_file_name: "Clear_name_text_#{DateTime.now.strftime("%Y_%m_%d_%H_%M_%S")}.pdf")
+  # end
 
 end

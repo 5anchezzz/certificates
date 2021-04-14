@@ -1,34 +1,42 @@
-<body style="background-image:url(<%= asset_path 'main_back.jpg'%>);
-    background-size:cover; background-repeat:no-repeat; background-attachment:fixed;
-    height: 100vh;
-">
+<body style="background-image:url(<%= asset_path 'pattern.png'%>); background-size:cover; background-repeat:no-repeat; background-attachment:fixed; height: 100vh;">
 
-<div class="container" style="margin:0; height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-">
 
-<div>
+  <div class="container" style="margin:0; height: 100vh; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;">
+    <div>
 
-      <h1 class="display-3 text-center" style="font-family: Montserrat">MAKEitUP</h1>
-      <h2 class="display-3 text-center" style="font-family: Montserrat">International Intensive</h2>
-<!--      <h3 class="text-center" style="font-family: Montserrat; font-weight: lighter; margin-top: 40px; margin-bottom: 60px;">Have you completed the course?</h3>-->
+      <% if @device == 'desktop' %>
 
-      <div class="d-flex align-items-center justify-content-center mt-5">
-        <%= form_tag root_path(), method: 'get', :class => 'input-group input-group-lg', :style => "max-width: 70%" do %>
-          <%= text_field_tag :email, params[:email], class: 'form-control', type: 'search', style: 'border: none;', placeholder: "Email", autofocus: true, required: true %>
-          <div class="input-group-append">
-            <%#= link_to '&times;'.html_safe, request.path, class: "btn btn-light" %>
-            <%= submit_tag "Сертификаты", class: 'btn btn-light' %>
-          </div>
-        <% end %>
+        <h1 class="display-2 text-center" style="font-family: Montserrat">TOP BEAUTY</h1>
+        <div class="d-flex align-items-center justify-content-center mt-5" style="font-family: Montserrat!important">
+          <%= form_tag root_path(), method: 'get', :class => 'input-group input-group-lg', :style => "width: 40em" do %>
+            <%= text_field_tag :email, params[:email], class: 'form-control', type: 'search', style: 'border: none;', placeholder: "e-mail *", autofocus: true, required: true %>
+            <div class="input-group-append mb-5">
+              <%= submit_tag "Найти / Find", class: 'btn btn-dark' %>
+            </div>
+          <% end %>
+        </div>
+
+      <% else %>
+
+        <h1 class="display-1 text-center" style="font-family: Montserrat;">TOP BEAUTY</h1>
+        <div class="d-flex align-items-center justify-content-center mt-5" style="font-family: Montserrat!important">
+          <%= form_tag root_path(), method: 'get' do %>
+            <%= text_field_tag :email, params[:email], class: "form-control form-control-lg mt-3 mb-3", type: 'search', style: 'width: 20em; height: 3em; border: none; font-size: 2em; border-radius: 1em; padding: 1em', placeholder: "e-mail *", autofocus: true, required: true %>
+            <div class="mb-5" style="width: 100%; display: flex; justify-content: center;">
+              <%= submit_tag "Найти / Find", class: 'btn btn-lg btn-dark btn-block mt-3', style: 'font-size: 2em; border-radius: 1em; height: 3em;' %>
+            </div>
+          <% end %>
+        </div>
+
+      <% end %>
+
+      <hr class="mt-5">
+      <div class="mt-2" style="font-family: Montserrat; color: #2E2F30; font-size: large">
+        <p class="fw-lighter">введите адрес электронной почты, который Вы использовали для регистрации участия в интенсиве </p>
+        <p class="fw-lighter">enter the e-mail address that you used to register for the intensive course </p>
       </div>
 
-</div>
-
-</div>
+    </div>
+  </div>
 
 </body>

@@ -1,17 +1,27 @@
 #require('zip')
 class Admin::UsersController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin!, except: [:download_one_pdf, :download_all_pdfs]
 
   def index
-    @q = User.ransack(params[:q])
+    @marathons = Marathon.all
+
+    if params[:from_marathon]
+      @q = User.includes(:marathon).of_one_marathon(params[:from_marathon]).ransack(params[:q])
+    else
+      @q = User.includes(:marathon).ransack(params[:q])
+    end
+
+    # @q = User.ransack(params[:q])
     @users = @q.result.page(params[:page]).per(100)
   end
 
   def new
+    @marathons = Marathon.all
     @user = User.new
   end
 
   def create
+    @marathons = Marathon.all
     @user = User.create(user_params)
 
     if @user.save
@@ -27,45 +37,14 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  #def download_pdf
-                  #user = User.find_by_email(params[:user_email])
-                  #send_data(user.combine_pdf_cert(params[:type]), :filename => "#{params[:type]}_cert.pdf", :type => "application/pdf")
-    #user = User.find_by_email(params[:user_email])
-    #certificate = Certificate.find(params[:certificate_id])
-    #send_data(user.combine_pdf_cert(certificate), :filename => "#{certificate.name}_cert.pdf", :type => "application/pdf")
-  #end
-
-
-  #def download_zip
-  #  user = User.find_by_email(params[:user_email])
-  #  filename = 'all_certs_archive.zip'
-  #  temp_file = Tempfile.new(filename)
-  #  begin
-  #    Zip::OutputStream.open(temp_file) { |zos| }
-  #    Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
-  #      Certificate.scope_by_language(user.language).each do |type|
-  #        cert = Tempfile.new("#{type.name}-#{user.email}.pdf")
-  #        cert.binmode
-  #        cert.write(user.combine_pdf_cert(type))
-  #        cert.rewind
-  #        zip.add("#{type.name}-#{user.email}.pdf", cert.path)
-  #        cert.close
-  #      end
-  #    end
-  #    zip_data = File.read(temp_file.path)
-  #    send_data(zip_data, type: 'application/zip', disposition: 'attachment', filename: filename)
-  #  ensure # important steps below
-  #    temp_file.close
-  #    temp_file.unlink
-  #  end
-  #end
-
   def edit
     @user = User.find(params[:id])
+    @marathons = Marathon.all
   end
 
   def update
     @user = User.find(params[:id])
+    @marathons = Marathon.all
     if @user.update(user_params)
       flash[:success] = "User updated!"
       redirect_to admin_user_path(@user)
@@ -86,9 +65,24 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def download_one_pdf
+    @user = User.find(params[:id])
+    @lecture = Lecture.find(params[:lecture_id])
+    send_data(@user.generate_one_cert(@lecture), filename: "#{@lecture.file_name}_cert.pdf", type: 'application/pdf')
+  end
+
+  def download_all_pdfs
+    @user = User.find(params[:id])
+    filename = 'all_certs_archive.zip'
+    certs_files = @user.generate_all_certs_new
+    certs_files.rewind
+    send_data(certs_files.read, type: 'application/zip', disposition: 'attachment', filename: filename)
+    @user.update(state: 'done')
+  end
+
   private
   def user_params
-    params.require(:user).permit(:firstname, :lastname, :email, :language)
+    params.require(:user).permit(:firstname, :lastname, :email, :language, :marathon_id)
   end
 
 end

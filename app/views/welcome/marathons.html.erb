@@ -1,0 +1,18 @@
+<body style="background-image:url(<%= asset_path 'pattern.png'%>); background-size:cover; background-repeat:no-repeat; background-attachment:fixed; height: 100vh;">
+<!--  <div class="container" style="margin:0; height: 80vh; display: flex; justify-content: center;align-items: center; margin-left: auto; margin-right: auto">-->
+  <% if @device == 'desktop' %>
+    <div class="container mt-5" style="display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto">
+      <%= render('welcome/marathon', email: @email) %>
+    </div>
+  <% else %>
+  <div class="container-fluid d-flex flex-column" style="margin: 0; height: 80vh; justify-content: center; align-items: center; margin-left: auto; margin-right: auto">
+    <%= render('welcome/m_marathon', email: @email) %>
+  </div>
+  <% end %>
+  <% if @device == 'desktop' %>
+  <div class="container" style="display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto">
+    <%= link_to "На главную / back to main", root_path(), class: "btn btn-light btn-lg mb-5 mt-5",
+                style: "border-radius: 16px; border:none; background: rgb(255 255 255 / 30%);" %>
+  </div>
+<% end %>
+</body>

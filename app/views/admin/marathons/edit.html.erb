@@ -1,0 +1,137 @@
+<div class="container mt-5">
+  <h1>Edit Marathon#<%= @marathon.id %></h1>
+  <p class="text-muted">All fields are required</p>
+
+  <div class="alert alert-warning" role="alert">
+    <h6>Если Вы уже создали пользователей для этого Марафона, НЕ МЕНЯЙТЕ здесь следующие параметры:</h6>
+    <h6 class="mb-2">Это обновление будет связано со всеми пользователями и займет много времени</h6>
+    <hr>
+    <p style="margin-bottom: 0;">1. Разерешение pdf-файлов, который будут использоваться как шаблоны сертификатов ('PDF width' и 'PDF height')</p>
+    <p style="margin-bottom: 0;">2. Расположение текста в шаблонах сертификатов ('X-pos' и 'Y-pos')</p>
+    <p style="margin-bottom: 0;">3. Размер и цвет текста ('Font size' и 'Font color')</p>
+  </div>
+
+
+
+  <%= form_for @marathon, url: admin_marathon_path do |f| %>
+
+    <h5 class="mt-5 mb-3 text-center">Общая информация</h5>
+    <div class="row" style="width: 100%;">
+
+      <div class="col-sm-8 justify-content-center" style="align-items: center; display: flex; flex-direction: column;">
+        <div class="form-group" style="width: 100%;">
+          <%= f.label :name, "Name:", class: "col control-label" %>
+          <div class="col">
+            <%= f.text_field :name, required: true, class: "form-control" %>
+          </div>
+        </div>
+        <div class="form-group" style="width: 100%;">
+          <%= f.label :description, "Description:", class: "col control-label" %>
+          <div class="col">
+            <%= f.text_area :description, placeholder: 'Description', required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4" style="width: 100%; border: 1px solid #ced4da; border-radius: .25rem; padding: 16px;">
+
+        <div class="form-group justify-content-center" style="align-items: center; display: flex; flex-direction: column;">
+          <img src="<%= @marathon.logo.url %>" alt="..." style="height: 15em; width: 15em; padding: 16px;">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-append">
+            <span class="btn btn-secondary" style="border: none; border-top-left-radius: .25rem; border-bottom-left-radius: .25rem" onclick="$(this).parent().find('input[type=file]').click();">Browse</span>
+              <%= f.file_field :logo, onchange: "$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\\\|/]/).pop());", style: "display: none;" %>
+            </span>
+          <span type="text" class="form-control"></span>
+        </div>
+        <%#= f.file_field :logo, class: "form-control", type: "file", id: "formFile", style: "border: none" %>
+      </div>
+
+    </div>
+
+    <table class="table table-borderless table-hover mt-5">
+      <tbody >
+        <tr>
+          <td style="width: 30%; vertical-align: middle;"><h6>Разрешение шаблонов</h6></td>
+          <td style="width: 35%; vertical-align: middle;">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.label :pdf_width, "PDF width:" %>
+              </div>
+              <div class="col-sm-6">
+                <%= f.text_field :pdf_width, required: true, class: "form-control" %>
+              </div>
+            </div>
+          </td>
+
+          <td style="width: 35%; vertical-align: middle;">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.label :pdf_height, "PDF height:" %>
+              </div>
+              <div class="col-sm-6">
+                <%= f.text_field :pdf_height, required: true, class: "form-control" %>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="width: 30%; vertical-align: middle;"><h6>Расположение текста</h6></td>
+          <td style="width: 35%; vertical-align: middle;">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.label :x_pos, "X-pos:" %>
+              </div>
+              <div class="col-sm-6">
+                <%= f.text_field :x_pos, required: true, class: "form-control" %>
+              </div>
+            </div>
+          </td>
+          <td style="width: 35%; vertical-align: middle;">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.label :y_pos, "Y-pos:" %>
+              </div>
+              <div class="col-sm-6">
+                <%= f.text_field :y_pos, required: true, class: "form-control" %>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%;"><h6>Размер и цвет текста</h6></td>
+          <td style="width: 35%; vertical-align: middle;">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.label :font_size, "Font size:" %>
+              </div>
+              <div class="col-sm-6">
+                <%= f.text_field :font_size, required: true, class: "form-control" %>
+              </div>
+            </div>
+          </td>
+          <td style="width: 35%; vertical-align: middle;">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.label :font_color, "Font color:" %>
+              </div>
+              <div class="col-sm-6">
+                <%= f.text_field :font_color, required: true, class: "form-control" %>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="form-group mt-5 ml-3">
+      <%= link_to "back", admin_marathon_path(@marathon), class: "btn btn-light" %>
+      <%= f.submit class: "btn btn-outline-secondary" %>
+    </div>
+
+  <% end %>
+
+</div>

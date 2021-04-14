@@ -10,23 +10,27 @@
 
       <%
         dashboard_class = 'active' if current_page?(admin_root_path)
-        tables_class = 'active' if current_page?(admin_tables_path)
+        # tables_class = 'active' if current_page?(admin_tables_path)
         users_class = 'active' if current_page?(admin_users_path)
-        certificates_class = 'active' if current_page?(admin_certificates_path)
+        # certificates_class = 'active' if current_page?(admin_certificates_path)
+        marathons_class = 'active' if current_page?(admin_marathons_path)
       %>
 
       <li class="nav-item <%= dashboard_class %>">
         <%= link_to 'Dashboard', admin_root_path, class: "nav-link"%>
       </li>
-      <li class="nav-item <%= tables_class %>">
-        <%= link_to 'Tables', admin_tables_path, class: "nav-link"%>
+      <li class="nav-item <%= marathons_class %>">
+        <%= link_to 'Marathons', admin_marathons_path, class: "nav-link"%>
       </li>
+<!--      <li class="nav-item <%#= tables_class %>">-->
+        <%#= link_to 'Tables', admin_tables_path, class: "nav-link"%>
+<!--      </li>-->
       <li class="nav-item <%= users_class %>">
         <%= link_to 'Users', admin_users_path, class: "nav-link"%>
       </li>
-      <li class="nav-item <%= certificates_class %>">
-        <%= link_to 'Certificates', admin_certificates_path, class: "nav-link"%>
-      </li>
+<!--      <li class="nav-item <%#= certificates_class %>">-->
+        <%#= link_to 'Certificates', admin_certificates_path, class: "nav-link"%>
+<!--      </li>-->
 
 
 

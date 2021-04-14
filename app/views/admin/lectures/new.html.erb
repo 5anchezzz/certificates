@@ -1,0 +1,59 @@
+<div class="container mt-5">
+  <h1>Create new Lecture</h1>
+  <h6 class="mb-5">All fields are required</h6>
+
+  <div class="col">
+    <%= form_for @lecture, url: admin_lectures_path do |lecture| %>
+
+      <%= lecture.hidden_field :marathon_id, :value => params[:marathon_id] %>
+
+      <div class="form-group">
+        <%= lecture.label :name, "Name:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :name, placeholder: 'Name', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :speaker, "Speaker:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :speaker, placeholder: 'Speaker', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :description, "Description:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :description, placeholder: 'Description', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :date, "Date:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.date_select :date, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :file_name, "File name:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :file_name, placeholder: 'coco_chanel', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :certificate, "PDF file:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.file_field :certificate, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group mt-5 ml-3">
+        <%= link_to "back", admin_marathon_path(@marathon), class: "btn btn-light" %>
+        <%= lecture.submit class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+
+</div>

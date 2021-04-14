@@ -1,0 +1,19 @@
+<% @info_mars.each do |m| %>
+
+  <% percent_class = 'danger' %>
+  <% percent_class = 'warning' if m.get_percent_done >= 50 %>
+  <% percent_class = 'success' if m.get_percent_done >= 98 %>
+
+
+  <div class="card text-center" style="width: 24rem; margin: 16px">
+    <img src="<%= m.logo.url %>" class="card-img-top" style="padding: 16px;" alt="...">
+    <div class="card-body mt-3">
+      <h3 class="card-title"><%= m.name %></h3>
+<!--      <h3 class="card-title"><%#= "#{m.get_percent_done}%" %></h3>-->
+      <p class="card-text mt-4"><span class="badge bg-<%= percent_class %>" style="color: white"><%="#{m.get_percent_done}%"%></span></p>
+
+      <a href="<%= admin_marathon_path(m) %>" class="btn btn-secondary mt-3 mb-4"> Открыть</a>
+    </div>
+  </div>
+
+<% end %>

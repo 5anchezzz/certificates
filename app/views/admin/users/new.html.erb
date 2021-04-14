@@ -6,6 +6,13 @@
     <%= form_for @user, url: admin_users_path do |f| %>
 
       <div class="form-group">
+        <%= f.label :marathon_id, "Marathon:", class: "col control-label" %>
+        <div class="col">
+          <%= f.select :marathon_id, options_from_collection_for_select(@marathons, "id", "name", params[:marathon_id]), { prompt: '-- Select One --'}, {required: true, class: "form-control"} %>
+        </div>
+      </div>
+
+      <div class="form-group">
         <%= f.label :firstname, "Firstname:", class: "col control-label" %>
         <div class="col">
           <%= f.text_field :firstname, required: true, class: "form-control" %>
@@ -26,12 +33,12 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :language, "Language:", class: "col control-label" %>
-        <div class="col">
-          <%= f.select :language, options_for_select(%w(rus eng)), { prompt: '-- Select One --'}, {required: true, class: "form-control"} %>
-        </div>
-      </div>
+<!--      <div class="form-group">-->
+        <%#= f.label :language, "Language:", class: "col control-label" %>
+<!--        <div class="col">-->
+          <%#= f.select :language, options_for_select(%w(rus eng)), { prompt: '-- Select One --'}, {required: true, class: "form-control"} %>
+<!--        </div>-->
+<!--      </div>-->
 
       <div class="form-group mt-5 ml-3">
         <%= link_to "back", admin_users_path, class: "btn btn-light" %>

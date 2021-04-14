@@ -36,6 +36,8 @@ gem 'kaminari'
 gem "roo", "~> 2.8.0"
 gem 'prawn'
 gem 'rmagick'
+gem 'enumerize'
+gem "sidekiq"
 
 #gem "capistrano", "3.10"
 #gem 'capistrano-rvm'

@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <div class="d-flex align-items-center justify-content-between">
+    <h1>All Marathons</h1>
+    <%= link_to 'Create new', new_admin_marathon_path(), class: "btn btn-outline-primary btn-sm" %>
+  </div>
+
+  <table class="table table-hover mt-3">
+    <thead>
+    <tr>
+      <th scope="col" style="width: 10%; text-align: center">#</th>
+      <th scope="col" style="width: 50%;">Name</th>
+      <th scope="col" style="width: 10%; text-align: center">Tables</th>
+      <th scope="col" style="width: 10%; text-align: center">Users</th>
+      <th scope="col" style="width: 10%; text-align: center">Lectures</th>
+<!--      <th scope="col" style="width: 20%; text-align: center">State</th>-->
+      <th scope="col" style="width: 10%; text-align: center"></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% @marathons.each_with_index { |marathon, index|  %>
+      <%# table.state == 'new' ? class_name = 'primary' : class_name = table.state %>
+      <tr>
+        <th scope="row" style="text-align: center"><%= index + 1 %></th>
+        <td><%= marathon.name %></td>
+        <td style="text-align: center"><%= marathon.tables.count %></td>
+        <td style="text-align: center"><%= marathon.users.count %></td>
+        <td style="text-align: center"><%= marathon.lectures.count %></td>
+<!--        <td style="text-align: center"><span class="badge badge-<%#= class_name %>"><%#= table.state %></span></td>-->
+        <td style="text-align: center"><%= link_to "Show", admin_marathon_path(marathon), class: "btn btn-outline-secondary btn-sm" %></td>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+
+
+
+
+
+
+</div>

@@ -1,0 +1,75 @@
+<div class="container mt-5">
+  <h1>Edit Lecture <%= @lecture.id %></h1>
+  <h6 class="mb-5">All fields are required</h6>
+
+  <div class="col">
+    <%= form_for @lecture, url: admin_lecture_path do |lecture| %>
+
+      <%#= lecture.hidden_field :marathon_id, :value => params[:marathon_id] %>
+
+
+      <div class="form-group">
+        <%= lecture.label :marathon_id, "Marathon:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.select :marathon_id, options_from_collection_for_select(@marathons, "id", "name", params[:marathon_id]), { prompt: '-- Select One --'}, {required: true, class: "form-control", disabled: true} %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :name, "Name:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :name, placeholder: 'Name', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :speaker, "Speaker:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :speaker, placeholder: 'Speaker', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :description, "Description:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :description, placeholder: 'Description', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :date, "Date:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.date_select :date, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= lecture.label :file_name, "File name:", class: "col control-label" %>
+        <div class="col">
+          <%= lecture.text_field :file_name, placeholder: 'coco_chanel', required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="d-flex align-items-center justify-content-start mt-2 ml-3">
+
+          <%= image_tag @lecture.certificate.url(:medium) %>
+
+          <div class="form-group">
+            <%= lecture.label :certificate, "PDF file:", class: "col control-label" %>
+            <div class="col">
+              <%= lecture.file_field :certificate, class: "form-control" %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group mt-5 ml-3">
+        <%= link_to "back", admin_lecture_path(@lecture), class: "btn btn-light" %>
+        <%= lecture.submit class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+
+</div>

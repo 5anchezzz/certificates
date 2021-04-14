@@ -1,0 +1,33 @@
+<% @mars.each do |m| %>
+
+
+  <%#= link_to certificates_path(email: @email, marathon_id: m.id) do %>
+  <a href="<%= certificates_path(email: @email, marathon_id: m.id) %>" class="link-border mb-3" style="font-family: Montserrat!important; text-decoration: none;">
+    <div class="card" style="width: 100%; background: rgb(255 255 255 / 30%); border: none;">
+      <div class="row g-0">
+        <div class="col-md-3 d-flex align-items-center">
+          <img src="<%= m.logo.url %>" alt="..." style="height: 15em; width: 15em; padding: 16px;">
+        </div>
+        <div class="col-md-9">
+          <div class="card-body">
+            <div class="card-body d-flex justify-content-between" style="padding-left: 0">
+              <h1 class="card-title"><%= m.name %></h1>
+              <div>
+                <span  class="btn btn-dark btn-lg" style="border-radius: 16px"> Открыть / open</span>
+              </div>
+            </div>
+            <p class="card-text" style="padding-bottom: 24px; font-size: x-large"><%= m.description %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+
+  <%# end %>
+<% end %>
+
+<div class="container" style="display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto">
+  <%= link_to "На главную / back to main", root_path(), class: "btn btn-light btn-lg mb-5 mt-5",
+              style: "font-family: Montserrat!important; border-radius: 16px; border:none; background: rgb(255 255 255 / 30%);" %>
+</div>

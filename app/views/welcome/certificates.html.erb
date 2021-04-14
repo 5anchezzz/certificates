@@ -1,0 +1,67 @@
+<body style="background-image:url(<%= asset_path 'pattern.png'%>); background-size:cover; background-repeat:no-repeat; background-attachment:fixed; height:100%; padding: 0 16px; font-family: Montserrat!important">
+
+  <% fluid = '-fluid' if @device != 'desktop' %>
+
+  <div class="container<%= fluid %> mt-5" style="background: rgb(255 255 255 / 70%); border-radius: 16px; margin-bottom: 36px;">
+
+    <div class="d-flex justify-content-between">
+      <div style="padding: 24px">
+        <h1 style="padding-top: 16px"><%= "👋 #{@user.firstname}" %>!</h1>
+        <p class="text-muted fw-light" style="margin-bottom: 0"><%= 'Здесь ты можешь скачать один сертификат или все сразу /' %></p>
+        <p class="text-muted fw-light"><%= 'Here you can download one certificate or all at once' %></p>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-center" style="padding: 24px">
+        <a class="btn btn-dark" style="border-radius: 16px" href="<%= admin_download_all_pdfs_path(id: @user.id) %>" target="_blank">
+          <%= "ВСЁ / ALL" %>
+        </a>
+      </div>
+    </div>
+
+    <h3 class="text-center mb-3"><%= "#{@marathon.name}" %>!</h3>
+
+    <div style="padding-left: 24px; padding-right: 24px; padding-bottom: 24px;">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 5%;">#</th>
+        <th scope="col" style="width: 25%;"><%= "Спикер / speaker" %></th>
+        <th scope="col" style="width: 45%;"><%= "Название / name" %></th>
+        <th scope="col" style="width: 15%;"><%= "Дата / date" %></th>
+        <th scope="col" style="width: 10%; text-align: center"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @marathon.lectures.each_with_index { |cert, index| %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= cert.speaker %></td>
+          <td><%= cert.description %></td>
+          <td><%= cert.date.strftime('%d.%m.%y') %></td>
+          <td>
+            <a class="d-flex align-items-center justify-content-center text-warning" href="<%= admin_download_one_pdf_path(id: @user.id, :lecture_id => cert.id) %>" target="_blank" style="font-size: 24px;">
+<!--              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">-->
+<!--                <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>-->
+<!--                <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>-->
+<!--              </svg>-->
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="dark" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z"/>
+              </svg>
+            </a>
+          </td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+
+  </div>
+
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <%= link_to "Назад / back", marathons_path(email: @user.email.downcase), class: "btn btn-light btn-lg mb-5",
+                style: "border-radius: 16px; border:none; background: rgb(255 255 255 / 30%);" %>
+  </div>
+
+</body>

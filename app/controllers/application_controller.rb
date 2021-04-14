@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new('Not Found')
   end
 
+  def type_device
+    agent = request.user_agent
+    @device = "desktop"
+    @device = "tablet" if agent =~ /(tablet|ipad)|(android(?!.*mobile))/i
+    @device = "mobile" if agent =~ /Mobile/
+    @device
+  end
+
   private
   def after_sign_out_path_for(resource)
     admin_root_path

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   root to: "welcome#index"
   get 'result', to: 'welcome#result'
+  get 'marathons', to: 'welcome#marathons'
+  get 'certificates', to: 'welcome#certificates'
   get 'download_pdf', to: "welcome#download_pdf"
   get 'download_zip', to: "welcome#download_zip"
   get 'zip_zip', to: "welcome#zip_zip"
@@ -35,14 +37,25 @@ Rails.application.routes.draw do
   namespace :admin do
     root 'admin#dashboard'
     resources :users
+
+    resources :marathons do
+      member do
+        patch 'delete_all_users', to: 'marathons#delete_all_users'
+      end
+    end
+
+    resources :lectures
     resources :certificates
     resources :rus_templates
     resources :eng_templates
     resources :tables do
       member do
         patch 'create_users', to: 'tables#create_users'
+        patch 'renew', to: 'tables#renew'
       end
     end
+    get 'download_one_pdf', to: "users#download_one_pdf"
+    get 'download_all_pdfs', to: "users#download_all_pdfs"
   end
 
 end

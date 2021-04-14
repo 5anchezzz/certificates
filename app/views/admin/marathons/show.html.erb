@@ -1,0 +1,216 @@
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between">
+    <h1>Marathon "<%= @marathon.name %>"</h1>
+    <div style="display: flex; align-items: center; justify-content: flex-start;">
+      <%= link_to 'Edit', edit_admin_marathon_path(@marathon), class: "btn btn-outline-secondary btn-sm" %>
+      <%= button_to 'Delete', admin_marathon_path(@marathon), class: 'btn btn-outline-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Marathon?' } %>
+      <%= link_to 'Add User', new_admin_user_path(marathon_id: @marathon.id), class: "btn ml-2 btn-success btn-sm" %>
+
+    </div>
+  </div>
+  <hr>
+  <p class="font-weight-normal"><%= @marathon.description %></p>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="<%= @marathon.logo.url %>" alt="..." style="height: 15em; width: 15em; padding: 16px;">
+
+
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col" style="width: 30%;"></th>
+          <th scope="col" style="width: 70%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+          <td><span class="font-weight-lighter">Created at:</span></td>
+          <td><span class="font-weight-lighter"><%= @marathon.created_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Updated at:</span></td>
+          <td><span class="font-weight-lighter"><%= @marathon.updated_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        </tbody>
+      </table>
+
+
+
+    </div>
+
+
+
+    <div class="col-sm-8">
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col" style="width: 20%;"></th>
+          <th scope="col" style="width: 80%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+          <td><span class="font-weight-lighter">Resolution:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.get_resolution %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Font color:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.font_color %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Font size:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.font_size %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">X-pos:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.x_pos %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Y-pos:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.y_pos %></span></td>
+        </tr>
+
+
+        <tr>
+          <td><span class="font-weight-lighter">Users:</span></td>
+          <td>
+
+            <div class="d-flex align-items-baseline">
+              <%= link_to @marathon.users.count, admin_users_path(from_marathon: @marathon.id) %>
+              <% if @marathon.users.any? %>
+                <%= button_to '&#10007;'.html_safe, delete_all_users_admin_marathon_path(marathon_id: @marathon.id), class: 'btn btn-outline-danger btn-sm ml-2', style: 'border: none', method: :patch, data: { confirm: 'Are you sure you want to DELETE all Users of this Marathon?' }%>
+              <% end %>
+            </div>
+
+          </td>
+
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Tables:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.tables.count %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Lectures:</span></td>
+          <td><span class="font-weight-normal"><%= @marathon.lectures.count %></span></td>
+        </tr>
+
+
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between mt-5">
+    <h3>Tables</h3>
+    <%= link_to 'Create new', new_admin_table_path(marathon_id: @marathon.id), class: "btn btn-outline-primary btn-sm" %>
+  </div>
+
+  <% if @tables.any? %>
+    <table class="table table-hover mt-3">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 10%; text-align: center">#</th>
+<!--        <th scope="col" style="width: 20%;">Marathon</th>-->
+        <th scope="col" style="width: 25%;">Name</th>
+        <th scope="col" style="width: 45%;">Description</th>
+        <th scope="col" style="width: 10%; text-align: center">State</th>
+        <th scope="col" style="width: 10%; text-align: center"></th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <% @tables.each_with_index { |table, index|  %>
+        <% case table.state %>
+        <% when 'new' %>
+          <% class_name = 'primary' %>
+        <% when 'error' %>
+          <% class_name = 'danger' %>
+        <% when 'processing' %>
+          <% class_name = 'warning' %>
+        <% when 'done' %>
+          <% class_name = 'success' %>
+        <% end %>
+        <tr>
+          <th scope="row" style="text-align: center"><%= index + 1 %></th>
+<!--          <td><%#= table.marathon.name %></td>-->
+          <td><%= table.name %></td>
+          <td><%= table.description %></td>
+          <td style="text-align: center"><span class="badge badge-<%= class_name %>"><%= table.state %></span></td>
+          <td style="text-align: center"><%= link_to "Show", admin_table_path(table), class: "btn btn-outline-secondary btn-sm" %></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+
+  <% end %>
+
+
+
+
+  <hr class="mt-5">
+
+  <div class="d-flex align-items-center justify-content-between mt-5">
+    <h3>Lectures</h3>
+    <%= link_to 'Create new', new_admin_lecture_path(marathon_id: @marathon.id), class: "btn btn-outline-primary btn-sm" %>
+  </div>
+
+  <% if @lectures.any? %>
+    <table class="table table-hover mt-3">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 10%; text-align: center">#</th>
+        <th scope="col" style="width: 25%;">Name</th>
+        <th scope="col" style="width: 15%;">Speaker</th>
+<!--        <th scope="col" style="width: 30%;">Description</th>-->
+        <th scope="col" style="width: 15%; text-align: center">Date</th>
+        <th scope="col" style="width: 25%; text-align: center">Certificate</th>
+        <th scope="col" style="width: 10%; text-align: center">Resolution</th>
+        <th scope="col" style="width: 10%; text-align: center"></th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <% @lectures.each_with_index { |lecture, index|  %>
+        <% lecture.get_resolution == @marathon.get_resolution ? class_name = 'success' : class_name = 'danger' %>
+        <tr>
+          <th scope="row" style="text-align: center"><%= index + 1 %></th>
+          <td><%= lecture.name %></td>
+          <td><%= lecture.speaker %></td>
+<!--          <td><%#= lecture.description %></td>-->
+          <td style="text-align: center"><%= lecture.date %></td>
+          <td style="text-align: center"><%= image_tag lecture.certificate.url(:thumb) %></td>
+
+          <td style="text-align: center"><span class="badge badge-<%= class_name %>"><%= lecture.get_resolution %></span></td>
+
+<!--          <td style="color: green"><%#= lecture.get_resolution %></td>-->
+          <td><%= link_to "Show", admin_lecture_path(lecture), class: "btn btn-outline-secondary btn-sm" %></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+
+  <% end %>
+
+
+
+
+  <hr class="mt-5">
+
+  <%= link_to "All marathons", admin_marathons_path(), class: "btn btn-outline-secondary btn-sm", style: "margin-bottom: 72px;" %>
+
+</div>
+

@@ -1,4 +1,5 @@
 class Table < ApplicationRecord
+  belongs_to :marathon
   has_many :users, dependent: :destroy
 
   validates :name, presence: true
@@ -27,19 +28,21 @@ class Table < ApplicationRecord
         users.create!(firstname: row[0].to_s.downcase.capitalize,
                       lastname: set_lastname,
                       email: row[2].to_s.downcase,
-                      language: row[3].to_s.downcase)
+                      marathon: marathon)
+                      # language: row[3].to_s.downcase)
         success_count += 1
         row_number += 1
       rescue => error
         result_hash[:errors_row] = [] unless result_hash[:errors_row]
         result_hash[:errors_row] << row_number
-        update(logs: "#{logs}Error: #{DateTime.now.strftime('%d.%m.%y %H:%M')} - No user has been created for row ##{row_number} (#{error.message});")
+        update!(logs: "#{logs}Error: #{DateTime.now.strftime('%d.%m.%y %H:%M')} - No user has been created for row ##{row_number} (#{error.message});")
         row_number += 1
       end
     end
     result_hash[:success_count] = success_count
     success_count == number_of_users ? text = "All (#{success_count}) users have been successfully created;" : text = "#{success_count} users out of #{number_of_users} were created."
-    update(logs: "#{logs}Success: #{DateTime.now.strftime('%d.%m.%y %H:%M')} - #{text}")
+    update!(logs: "#{logs}Success: #{DateTime.now.strftime('%d.%m.%y %H:%M')} - #{text}",
+            state: 'done')
     result_hash
   end
 

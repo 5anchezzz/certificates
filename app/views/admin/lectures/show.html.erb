@@ -1,0 +1,86 @@
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between">
+    <h1>User #<%= @lecture.id %></h1>
+    <div style="display: flex; align-items: center; justify-content: flex-start;">
+      <%= link_to 'Edit', edit_admin_lecture_path(@lecture), class: "btn btn-outline-secondary btn-sm" %>
+      <%= button_to 'Delete', admin_lecture_path(@lecture), class: 'btn btn-outline-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this User?' } %>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col" style="width: 20%;"></th>
+          <th scope="col" style="width: 80%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+          <td><span class="font-weight-lighter">Marathon:</span></td>
+          <td><span class="font-weight-normal"><%= @lecture.marathon.name %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Name:</span></td>
+          <td><span class="font-weight-normal"><%= @lecture.name %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Speaker:</span></td>
+          <td><span class="font-weight-normal"><%= @lecture.speaker %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Description:</span></td>
+          <td><span class="font-weight-normal"><%= @lecture.description %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Date:</span></td>
+          <td><span class="font-weight-normal"><%= @lecture.date.strftime('%d.%m.%y') %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">File name:</span></td>
+          <td><span class="font-weight-normal"><%= @lecture.file_name %></span></td>
+        </tr>
+
+        <% @lecture.get_resolution == @lecture.marathon.get_resolution ? class_name = 'success' : class_name = 'danger' %>
+
+        <tr>
+          <td><span class="font-weight-lighter">Resolution:</span></td>
+          <td><span class="font-weight-normal badge badge-<%= class_name %>"><%= @lecture.get_resolution %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Created at:</span></td>
+          <td><span class="font-weight-lighter"><%= @lecture.created_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        <tr>
+          <td><span class="font-weight-lighter">Updated at:</span></td>
+          <td><span class="font-weight-lighter"><%= @lecture.updated_at.strftime('%d.%m.%y %H:%M') %></span></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-6">
+      <%= image_tag @lecture.certificate.url(:medium) %>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <%= link_to "back to Marathon", admin_marathon_path(@lecture.marathon), class: "btn btn-outline-secondary btn-sm" %>
+
+</div>
+

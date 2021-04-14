@@ -5,6 +5,9 @@
     <div style="display: flex; align-items: center; justify-content: flex-start;">
       <%= link_to 'Edit', edit_admin_table_path(@table), class: "btn btn-outline-secondary btn-sm" %>
       <%= button_to 'Delete', admin_table_path(@table), class: 'btn btn-outline-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Table?' } %>
+      <% if @table.state != 'new' %>
+        <%= button_to 'Renew', renew_admin_table_path(@table), class: 'btn btn-outline-primary btn-sm ml-2', method: :patch, data: { confirm: 'Are you sure you want to set NEW state for this Table?' } %>
+      <% end %>
     </div>
   </div>
 
@@ -22,6 +25,11 @@
         <tbody>
 
         <tr>
+          <td><span class="font-weight-lighter">Marathon:</span></td>
+          <td><span class="font-weight-normal"><%= link_to @table.marathon.name, admin_marathon_path(@table.marathon) %></span></td>
+        </tr>
+
+        <tr>
           <td><span class="font-weight-lighter">Name:</span></td>
           <td><span class="font-weight-normal"><%= @table.name %></span></td>
         </tr>
@@ -33,7 +41,16 @@
 
         <tr>
           <td><span class="font-weight-lighter">State:</span></td>
-          <% @table.state == 'new' ? class_name = 'primary' : class_name = @table.state %>
+          <% case @table.state %>
+          <% when 'new' %>
+            <% class_name = 'primary' %>
+          <% when 'error' %>
+            <% class_name = 'danger' %>
+          <% when 'processing' %>
+            <% class_name = 'warning' %>
+          <% when 'done' %>
+            <% class_name = 'success' %>
+          <% end %>
           <td><span class="badge badge-<%= class_name %>"><%= @table.state %></span></td>
         </tr>
 

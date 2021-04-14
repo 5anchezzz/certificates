@@ -1,12 +1,15 @@
 require('zip')
 class WelcomeController < ApplicationController
 
+  before_action :type_device
+
   def index
     if params[:email]
       #redirect_to user_path(params[:email])
       user = User.find_by_email(params[:email].to_s.downcase)
       if user
-        redirect_to result_path(email: params[:email].to_s.downcase)
+        # redirect_to result_path(email: params[:email].to_s.downcase)
+        redirect_to marathons_path(email: params[:email].to_s.downcase)
       else
         flash.now[:danger] = 'Ooops! Are you sure you entered the correct email address?'
         render action: :index
@@ -74,6 +77,41 @@ class WelcomeController < ApplicationController
     certs_files = user.generate_all_certs
     certs_files.rewind
     send_data(certs_files.read, type: 'application/zip', disposition: 'attachment', filename: filename)
+  end
+
+
+  def marathons
+    @email = params[:email]
+    @users = User.where(email: params[:email])
+    @mars = Marathon.where(id: @users.pluck(:marathon_id))
+  end
+
+  def certificates
+    @marathon = Marathon.find params[:marathon_id]
+    @user = User.find_by(email: params[:email], marathon: @marathon)
+    @certificates = @marathon.lectures
+
+    if @user
+      @hi =           'Привет'
+      @chose =        'Здесь ты можешь выбрать тот сертификат, который тебе нужен или скачать их все сразу'
+      @speaker =      'Спикер'
+      @description =  'Описание'
+      @date =         'Дата'
+      @download =     'Скачать'
+      @no_certs =     'Нет доступных сертификатов. Пожалуста, обратитесь в службу поддержки.'
+      @main =         'На главную'
+      @download_all = 'Скачать все'
+    else
+      @hi =           'Hi'
+      @chose =        'Here you can choose the certificate you need or download them all at once'
+      @speaker =      'Speaker'
+      @description =  'Description'
+      @date =         'Date'
+      @download =     'Download'
+      @no_certs =     'No certificates available. Please contact support.'
+      @main =         'Back to Main'
+      @download_all = 'Download all'
+    end
   end
 
 end
