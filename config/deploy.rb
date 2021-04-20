@@ -148,7 +148,7 @@ namespace :sidekiq do
   task :stop do
     on roles(:app) do
       within current_path do
-        pid = p capture "ps aux | grep sidekiq | awk '{print $2}' | sed -n 1p"
+        pid = p capture "ps aux | grep sidekiq | sed -n 1p"
         execute("kill -9 #{pid}")
       end
     end
