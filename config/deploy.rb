@@ -136,6 +136,33 @@ namespace :deploy do
   # after  :finishing,    :restart
 end
 
+namespace :sidekiq do
+
+  task :restart do
+    invoke 'sidekiq:stop'
+    invoke 'sidekiq:start'
+  end
+
+  before 'deploy:finished', 'sidekiq:restart'
+
+  task :stop do
+    on roles(:app) do
+      within current_path do
+        pid = p capture "ps aux | grep sidekiq | awk '{print $2}' | sed -n 1p"
+        execute("kill -9 #{pid}")
+      end
+    end
+  end
+
+  task :start do
+    on roles(:app) do
+      within current_path do
+        execute :bundle, "exec sidekiq -e #{fetch(:stage)} -C config/sidekiq.yml -d"
+      end
+    end
+  end
+end
+
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
