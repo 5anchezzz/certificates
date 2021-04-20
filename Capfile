@@ -37,13 +37,8 @@ require 'capistrano/rails/console'
 # require "capistrano/passenger"
 #require 'capistrano3/unicorn'
 require 'capistrano/puma'
-require 'capistrano/sidekiq'
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Daemon
-
-install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
-# Then select your service manager
-install_plugin Capistrano::Sidekiq::Systemd
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
