@@ -37,6 +37,7 @@ require 'capistrano/rails/console'
 # require "capistrano/passenger"
 #require 'capistrano3/unicorn'
 require 'capistrano/puma'
+require 'capistrano/sidekiq'
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Daemon
 
