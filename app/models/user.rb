@@ -200,9 +200,10 @@ class User < ApplicationRecord
   end
 
   def generate_name_pdf
-    name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
+    # name_width > 180 ? width_koeff = 180.0/name_width : width_koeff = 1.0
     color = marathon.font_color.split(',').map(&:to_i)
-    start_pos = marathon.x_pos - ((name_width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+    # start_pos = marathon.x_pos - ((name_width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+    start_pos = marathon.x_pos - ((name_width * marathon.font_size * 1.76 / 15) / 2)
     prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
       pdf.fill_color color[0], color[1], color[2], color[3]
       pdf.font Rails.root.join('public', 'Montserrat-Medium.ttf')
@@ -231,9 +232,10 @@ class User < ApplicationRecord
     width = label.get_type_metrics(name_to_paste).width
     self.name_width = width
     #########################
-    width > 180 ? width_koeff = 180.0/width : width_koeff = 1.0
+    # width > 180 ? width_koeff = 180.0/width : width_koeff = 1.0
     color = marathon.font_color.split(',').map(&:to_i)
-    start_pos = marathon.x_pos - ((width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+    # start_pos = marathon.x_pos - ((width * marathon.font_size * width_koeff * 1.76 / 15) / 2)
+    start_pos = marathon.x_pos - ((width * marathon.font_size * 1.76 / 15) / 2)
     prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
       pdf.fill_color color[0], color[1], color[2], color[3]
       pdf.font Rails.root.join('public', 'Montserrat-Medium.ttf')
