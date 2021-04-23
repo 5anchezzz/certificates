@@ -207,7 +207,8 @@ class User < ApplicationRecord
     prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
       pdf.fill_color color[0], color[1], color[2], color[3]
       pdf.font Rails.root.join('public', 'Montserrat-Medium.ttf')
-      pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+      # pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+      pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * 0.7 * 2
     end
     update!(
       text: StringIO.new(prawn_text_pdf.render),
@@ -239,7 +240,8 @@ class User < ApplicationRecord
     prawn_text_pdf = Prawn::Document.new :page_size => [marathon.pdf_width, marathon.pdf_height], :margin => 0 do |pdf|
       pdf.fill_color color[0], color[1], color[2], color[3]
       pdf.font Rails.root.join('public', 'Montserrat-Medium.ttf')
-      pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+      # pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * width_koeff * 0.7 * 2
+      pdf.draw_text name_to_paste, :at => [start_pos, marathon.y_pos], :size => marathon.font_size * 0.7 * 2
     end
     self.text = StringIO.new(prawn_text_pdf.render)
     self.text_file_name = "Clear_name_text_#{DateTime.now.strftime("%Y_%m_%d_%H_%M_%S")}.pdf"
