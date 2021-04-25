@@ -36,7 +36,7 @@
         <tr>
           <th scope="row"><%= index + 1 %></th>
           <td><%= cert.speaker %></td>
-          <td><%= cert.description %></td>
+          <td><%= cert.name %></td>
           <td><%= cert.date.strftime('%d.%m.%y') %></td>
           <td>
             <a class="d-flex align-items-center justify-content-center text-warning" href="<%= admin_download_one_pdf_path(id: @user.id, :lecture_id => cert.id) %>" target="_blank" style="font-size: 24px;">
