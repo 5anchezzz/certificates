@@ -9,7 +9,7 @@ class Lecture < ApplicationRecord
 
   has_attached_file :certificate, styles: { :thumb => ["200x200>", :png], :medium => ["500x500>", :png] }
   validates_attachment :certificate, presence: true,
-                       size: { in: 0..500.kilobytes },
+                       size: { in: 0..600.kilobytes },
                        content_type: { content_type: ['application/pdf'] },
                        message: 'Only PDF files are allowed'
 
