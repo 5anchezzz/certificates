@@ -78,7 +78,7 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
-set :rvm_map_bins, %w{gem rake ruby rails bundle}
+# set :rvm_map_bins, %w{gem rake ruby rails bundle}
 
 ## Defaults:
     # set :scm,           :git
