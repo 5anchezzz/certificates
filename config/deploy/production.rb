@@ -3,7 +3,7 @@ set :user, 'deployer'
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
-server '104.248.36.91', port: fetch(:port), user: fetch(:user), roles: %w{app db web}
+server '45.8.229.19', port: fetch(:port), user: fetch(:user), roles: %w{app db web}
 
 set :stage, :production
 set :rails_env, :production
